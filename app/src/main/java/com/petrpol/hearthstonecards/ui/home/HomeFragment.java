@@ -11,12 +11,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.R;
+import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.data.model.CardBack;
+import com.petrpol.hearthstonecards.ui.adapters.CardsAdapter;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private CardsAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -25,15 +34,24 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_home);
+        mRecyclerView = root.findViewById(R.id.home_recycler_view);
+        setupRecyclerView();
 
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        homeViewModel.getCards().observe(getViewLifecycleOwner(), new Observer<List<Card>>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(@Nullable List<Card> cards) {
+                mAdapter.notifyDataSetChanged();
             }
         });
 
+
         return root;
+    }
+
+    private void setupRecyclerView(){
+        mAdapter = new CardsAdapter(getContext(),homeViewModel.getCards());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
