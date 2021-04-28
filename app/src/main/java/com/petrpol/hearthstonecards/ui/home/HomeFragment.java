@@ -1,5 +1,6 @@
 package com.petrpol.hearthstonecards.ui.home;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,7 +111,7 @@ public class HomeFragment extends Fragment {
 
     private void setupRecyclerViews(){
         //Card Recycler
-        mAdapter = new CardsAdapter(getContext(),homeViewModel.getCards());
+        mAdapter = new CardsAdapter(this, homeViewModel.getCards());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -120,5 +123,9 @@ public class HomeFragment extends Fragment {
         mFilterRecyclerView.setAdapter(mFilterAdapter);
     }
 
+    public void showDetail(View view, String cardId){
+        HomeFragmentDirections.ActionNavigationHomeToCardDetailFragment action = HomeFragmentDirections.actionNavigationHomeToCardDetailFragment(cardId);
+        Navigation.findNavController(view).navigate(action);
+    }
 
 }

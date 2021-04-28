@@ -2,6 +2,7 @@
     <string name="app_name">HearthstoneCards</string>
     <string name="title_home">Hearthstone Cards</string>
     <string name="title_card_backs">Card backs</string>
+    <string name="title_card_detail">Card detail</string>
 
 
     //Home Fragment
@@ -9,5 +10,8 @@
     <string name="filter_type">Type</string>
     <string name="filter_set">Set</string>
     <string name="filter_class">Class</string>
+
+    //Card Detail Fragment
+    <string name="card_detail_flavor_title">Lore:</string>
 
 </resources>

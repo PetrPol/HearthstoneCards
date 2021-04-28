@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.ui.home.HomeFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,18 +19,18 @@ import java.util.Objects;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
-    Context mContext;
+    HomeFragment mHomeFragment;
     LiveData<List<Card>> mCardsDataSet;
 
-    public CardsAdapter(Context mContext, LiveData<List<Card>> mCardsDataSet) {
-        this.mContext = mContext;
+    public CardsAdapter(HomeFragment mHomeFragment, LiveData<List<Card>> mCardsDataSet) {
+        this.mHomeFragment = mHomeFragment;
         this.mCardsDataSet = mCardsDataSet;
     }
 
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(mHomeFragment.getContext());
         View view = inflater.inflate(R.layout.list_item_card,parent,false);
         return new CardViewHolder(view);
     }
@@ -44,6 +45,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
         holder.name.setText(card.getName());
         holder.text.setText(card.getText());
+
+        holder.itemView.setOnClickListener(v -> mHomeFragment.showDetail(v,card.getCardId()));
     }
 
     @Override

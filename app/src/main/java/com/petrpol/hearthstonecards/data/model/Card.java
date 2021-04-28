@@ -7,7 +7,7 @@ public class Card {
     private String name;
     private String cardSet;
     private String type;
-    private String rarity;
+    private String flavor;
     private String text;
     private String artist;
     private String img;
@@ -16,12 +16,12 @@ public class Card {
     private int attack;
     private int health;
 
-    public Card(String cardId, String name, String cardSet, String type, String rarity, String text, String artist, String img, String imgGold, int cost, int attack, int health) {
+    public Card(String cardId, String name, String cardSet, String type, String flavor, String text, String artist, String img, String imgGold, int cost, int attack, int health) {
         this.cardId = cardId;
         this.name = name;
         this.cardSet = cardSet;
         this.type = type;
-        this.rarity = rarity;
+        this.flavor = flavor;
         this.text = text;
         this.artist = artist;
         this.img = img;
@@ -29,6 +29,10 @@ public class Card {
         this.cost = cost;
         this.attack = attack;
         this.health = health;
+    }
+
+    public String getArtistView(){
+        return "Artist: "+ artist;
     }
 
     public String getCardId() {
@@ -63,12 +67,12 @@ public class Card {
         this.type = type;
     }
 
-    public String getRarity() {
-        return rarity;
+    public String getFlavor() {
+        return flavor;
     }
 
-    public void setRarity(String rarity) {
-        this.rarity = rarity;
+    public void setFlavor(String flavor) {
+        this.flavor = flavor;
     }
 
     public String getText() {

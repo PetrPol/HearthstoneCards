@@ -13,8 +13,11 @@ import retrofit2.http.Path;
 public interface CardsApi {
 
     @GET("cards/{path}")
-    Call<List<Card>> getCards(@Path("path") String path, @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
+    Call<List<Card>> getCards (@Path("path") String path, @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
 
     @GET("info")
     Call<Filter> getFilter ( @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
+
+    @GET("cards/{id}")
+    Call<List<Card>> getCardDetail (@Path("id") String id, @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
 }

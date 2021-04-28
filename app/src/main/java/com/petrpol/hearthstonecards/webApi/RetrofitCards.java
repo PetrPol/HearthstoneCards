@@ -43,6 +43,11 @@ public class RetrofitCards {
         return instance;
     }
 
+    public void getCardDetail( String cardId, Callback<List<Card>> callback){
+        Call<List<Card>> call = cardsApi.getCardDetail(cardId,AUTH_KEY,HOST);
+        call.enqueue(callback);
+    }
+
     public void getFilter(Callback<Filter> callback){
         Call<Filter> call = cardsApi.getFilter(AUTH_KEY,HOST);
         call.enqueue(callback);
