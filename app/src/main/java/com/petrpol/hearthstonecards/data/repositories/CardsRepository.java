@@ -1,11 +1,18 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.webApi.RetrofitCards;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /** Repository for cards list
  *  Singleton */
@@ -13,28 +20,41 @@ public class CardsRepository {
 
     public static CardsRepository instance;
 
-    private ArrayList<Card> cardsDataSet = new ArrayList<>();
+    private RetrofitCards retrofitCards;
+
+    public CardsRepository() {
+        retrofitCards = RetrofitCards.getInstance();
+    }
 
     public static synchronized CardsRepository getInstance(){
-        if (instance == null)
+        if (instance == null) {
             instance = new CardsRepository();
+        }
 
         return instance;
     }
 
     public MutableLiveData<List<Card>> getCards(){
 
-        createFakeData();
+        final MutableLiveData<List<Card>> data = new MutableLiveData<>();
 
-        MutableLiveData<List<Card>> data = new MutableLiveData<>();
-        data.setValue(cardsDataSet);
+        retrofitCards.getAllCards(new Callback<List<Card>>() {
+            @Override
+            public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("RetroError",response.message());
+                    return;
+                }
+
+                data.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Card>> call, Throwable t) {
+                Log.e("RetroError",t.getMessage());
+            }
+        });
+
         return data;
-    }
-
-    private void createFakeData(){
-        cardsDataSet.add(new Card("EX1_323h","Lord Jaraxxus","Classic","Hero","Legendary","Give a minion +4/+4. At the start of your next turn, destroy it.",null,"https://d15f34w2p8l1cc.cloudfront.net/hearthstone/19a8b4ca47064b3b3f4520f99748872d9c2b3761f99bf4537c3fdb48b590fde7.png"
-                ,null,0,0,15));
-        cardsDataSet.add(new Card("EX1_145","Preparation","Classic","Hero","Legendary","The next spell you cast this turn costs (2) less.",null,"https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4387cee6d06e8ba368f9af46e165b52968c9dd2859a167dc1edfd94f297008a4.png"
-                ,null,0,0,15));
     }
 }
