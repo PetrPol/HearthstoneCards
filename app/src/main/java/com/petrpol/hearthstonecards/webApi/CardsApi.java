@@ -1,6 +1,7 @@
 package com.petrpol.hearthstonecards.webApi;
 
 import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.data.model.Filter;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface CardsApi {
 
     @GET("cards/{path}")
     Call<List<Card>> getCards(@Path("path") String path, @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
+
+    @GET("info")
+    Call<Filter> getFilter ( @Header ("X-Rapidapi-Key") String authKey, @Header("X-Rapidapi-Host") String host);
 }
