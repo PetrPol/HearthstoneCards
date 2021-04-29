@@ -12,7 +12,7 @@ import com.petrpol.hearthstonecards.room.dao.FilterDao;
 
 /** Room database for cards
  *  Singleton */
-@Database(entities = Card.class, version = 2, exportSchema = false)
+@Database(entities = Card.class, version = 3, exportSchema = false)
 public abstract class CardsDatabase extends RoomDatabase {
 
     private static CardsDatabase instance;

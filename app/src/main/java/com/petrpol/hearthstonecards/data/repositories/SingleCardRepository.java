@@ -2,9 +2,12 @@ package com.petrpol.hearthstonecards.data.repositories;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
+import com.petrpol.hearthstonecards.room.dao.CardDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitCards;
 
 import java.util.List;
@@ -20,21 +23,25 @@ public class SingleCardRepository {
     public static SingleCardRepository instance;
 
     private RetrofitCards retrofitCards;
+    private CardDao cardDao;
 
-    public SingleCardRepository() {
+    public SingleCardRepository(CardsDatabase cardsDatabase) {
         retrofitCards = RetrofitCards.getInstance();
+        cardDao = cardsDatabase.getCardDao();
     }
 
     /** Returns instance (create if null) */
-    public static synchronized SingleCardRepository getInstance(){
+    public static synchronized SingleCardRepository getInstance(CardsDatabase cardsDatabase){
         if (instance == null)
-            instance = new SingleCardRepository();
+            instance = new SingleCardRepository(cardsDatabase);
 
         return instance;
     }
 
     /** Updates card object of given cardId */
-    public void getCard(MutableLiveData<Card> card, String cardId , SingleCardRepositoryInterface callback){
+    public LiveData<Card> getCard(String cardId , SingleCardRepositoryInterface callback){
+
+        LiveData<Card> data = cardDao.getCardById(cardId);
 
         retrofitCards.getCardDetail(cardId, new Callback<List<Card>>() {
             @Override
@@ -47,7 +54,7 @@ public class SingleCardRepository {
                 }
 
                 if (response.body()!=null && response.body().size()>0) {
-                    card.postValue(response.body().get(0));
+                    cardDao.addCard(response.body().get(0));
                     callback.onCardDataGetSuccess();
                 }
                 else
@@ -63,6 +70,8 @@ public class SingleCardRepository {
                 }
             }
         });
+
+        return data;
     }
 
 }

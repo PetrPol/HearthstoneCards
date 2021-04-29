@@ -28,4 +28,7 @@ public interface CardDao {
     @Query("SELECT * FROM cards_table where playerClass = :classValue ORDER BY cost ASC")
     LiveData<List<Card>> getCardsByClass(String classValue);
 
+    @Query("SELECT * FROM cards_table where cardId = :cardId")
+    LiveData<Card> getCardById(String cardId);
+
 }

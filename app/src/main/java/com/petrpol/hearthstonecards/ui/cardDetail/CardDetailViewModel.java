@@ -1,5 +1,7 @@
 package com.petrpol.hearthstonecards.ui.cardDetail;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,21 +9,22 @@ import androidx.lifecycle.ViewModel;
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.repositories.SingleCardRepository;
 import com.petrpol.hearthstonecards.data.repositories.SingleCardRepositoryInterface;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
 
 /** ViewModel for card detail fragment */
 public class CardDetailViewModel extends ViewModel implements SingleCardRepositoryInterface {
 
-    private MutableLiveData<Card> mCard= new MutableLiveData<>();
+    private LiveData<Card> mCard;
     private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
 
     private SingleCardRepository mSingleCardRepository;
 
-    public CardDetailViewModel() {
-        mSingleCardRepository = SingleCardRepository.getInstance();
+    public CardDetailViewModel(Context context) {
+        mSingleCardRepository = SingleCardRepository.getInstance(CardsDatabase.getInstance(context));
     }
 
     public void loadCard(String cardId) {
-        mSingleCardRepository.getCard(mCard, cardId, this);
+        mCard = mSingleCardRepository.getCard(cardId, this);
     }
 
     //Repository interface methods

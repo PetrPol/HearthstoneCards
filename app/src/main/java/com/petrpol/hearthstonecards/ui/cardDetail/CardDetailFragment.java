@@ -36,7 +36,7 @@ public class CardDetailFragment extends Fragment {
 
         //Create new model only if is null
         if (cardDetailViewModel == null)
-            cardDetailViewModel = new CardDetailViewModel();
+            cardDetailViewModel = new CardDetailViewModel(getContext());
 
         mBinding.setCardDetailViewModel(cardDetailViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
