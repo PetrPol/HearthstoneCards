@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
         if (homeViewModel==null)
             homeViewModel = new HomeViewModel(getContext());
 
+        homeViewModel.clean();
         mBinding.setHomeModelView(homeViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
 

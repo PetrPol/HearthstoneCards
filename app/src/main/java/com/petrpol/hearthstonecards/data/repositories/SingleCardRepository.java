@@ -3,12 +3,11 @@ package com.petrpol.hearthstonecards.data.repositories;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.CardDao;
-import com.petrpol.hearthstonecards.webApi.RetrofitCards;
+import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
 import java.util.List;
 
@@ -22,11 +21,11 @@ public class SingleCardRepository {
 
     public static SingleCardRepository instance;
 
-    private RetrofitCards retrofitCards;
+    private RetrofitController retrofitController;
     private CardDao cardDao;
 
     public SingleCardRepository(CardsDatabase cardsDatabase) {
-        retrofitCards = RetrofitCards.getInstance();
+        retrofitController = RetrofitController.getInstance();
         cardDao = cardsDatabase.getCardDao();
     }
 
@@ -43,7 +42,7 @@ public class SingleCardRepository {
 
         LiveData<Card> data = cardDao.getCardById(cardId);
 
-        retrofitCards.getCardDetail(cardId, new Callback<List<Card>>() {
+        retrofitController.getCardDetail(cardId, new Callback<List<Card>>() {
             @Override
             public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
 

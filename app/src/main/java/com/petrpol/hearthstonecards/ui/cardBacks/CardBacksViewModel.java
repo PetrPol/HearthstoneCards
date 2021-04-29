@@ -1,19 +1,51 @@
 package com.petrpol.hearthstonecards.ui.cardBacks;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CardBacksViewModel extends ViewModel {
+import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.data.model.CardBack;
+import com.petrpol.hearthstonecards.data.repositories.CardBackRepository;
+import com.petrpol.hearthstonecards.data.repositories.CardBacksRepositoryInterface;
+import com.petrpol.hearthstonecards.data.repositories.CardsRepositoryInterface;
+import com.petrpol.hearthstonecards.data.repositories.SingleCardRepository;
+import com.petrpol.hearthstonecards.room.CardBacksDatabase;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
 
-    public CardBacksViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("Card back fragment");
+public class CardBacksViewModel extends ViewModel implements CardBacksRepositoryInterface {
+
+
+    private LiveData<List<CardBack>> mCardBacks;
+    private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
+
+    private CardBackRepository mCardBacksRepository;
+
+    public CardBacksViewModel(Context context) {
+        mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
+        mCardBacks = mCardBacksRepository.getCardBacks(this);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    //Repository interface methods
+    @Override
+    public void onCardBackDataGetSuccess() {}
+
+    @Override
+    public void onCardBackDataGetFail(String message) {
+        mErrorMessage.postValue(message);
     }
+
+    //Getters
+    public LiveData<List<CardBack>> getCardBacks() {
+        return mCardBacks;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return mErrorMessage;
+    }
+
 }

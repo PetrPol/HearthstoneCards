@@ -1,8 +1,7 @@
 package com.petrpol.hearthstonecards.webApi;
 
-import android.util.Log;
-
 import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.model.Filter;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /** Retrofit controller to access data from API
  *  Singleton */
-public class RetrofitCards {
+public class RetrofitController {
 
     private final String BASE_URL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/";
     private final String AUTH_KEY = "44a61c4a77msh6ad106c9d375692p1e57f7jsn5766b90e1590";
@@ -23,64 +22,68 @@ public class RetrofitCards {
     private final String PATH_SET = "sets/";
     private final String PATH_CLASS = "classes/";
 
-    private static RetrofitCards instance;
-    private CardsApi cardsApi;
+    private static RetrofitController instance;
+    private RetrofitApi retrofitApi;
 
-    public RetrofitCards() {
+    public RetrofitController() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        cardsApi = retrofit.create(CardsApi.class);
+        retrofitApi = retrofit.create(RetrofitApi.class);
     }
 
-    public static synchronized RetrofitCards getInstance(){
+    public static synchronized RetrofitController getInstance(){
         if (instance==null)
-            instance = new RetrofitCards();
+            instance = new RetrofitController();
 
         return instance;
     }
 
     /** Gets single card from server for given cardId */
     public void getCardDetail( String cardId, Callback<List<Card>> callback){
-        Call<List<Card>> call = cardsApi.getCardDetail(cardId,AUTH_KEY,HOST);
+        Call<List<Card>> call = retrofitApi.getCardDetail(cardId,AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
     /** Gets filter object from server */
     public void getFilter(Callback<Filter> callback){
-        Call<Filter> call = cardsApi.getFilter(AUTH_KEY,HOST);
+        Call<Filter> call = retrofitApi.getFilter(AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
     /** Gets All cards from server */
     public void getAllCards(Callback<List<Card>> callback){
-        Call<List<Card>> call = cardsApi.getCards("classes/Priest",AUTH_KEY,HOST);
+        Call<List<Card>> call = retrofitApi.getCards("classes/Priest",AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
     /** Gets cards from server based on given type */
     public void getCardsByType(String type, Callback<List<Card>> callback){
         String path = PATH_TYPE + type;
-        Log.d("TEST API TYPE", path);
-        Call<List<Card>> call = cardsApi.getCards(path,AUTH_KEY,HOST);
+        Call<List<Card>> call = retrofitApi.getCards(path,AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
     /** Gets cards from server based on given set */
     public void getCardsBySet(String set, Callback<List<Card>> callback){
         String path = PATH_SET + set;
-        Log.d("TEST API SET", path);
-        Call<List<Card>> call = cardsApi.getCards(path,AUTH_KEY,HOST);
+        Call<List<Card>> call = retrofitApi.getCards(path,AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
     /** Gets cards from server based on given class */
     public void getCardsByClass(String requiredClass, Callback<List<Card>> callback){
         String path = PATH_CLASS + requiredClass;
-        Log.d("TEST API CLASS", path);
-        Call<List<Card>> call = cardsApi.getCards(path,AUTH_KEY,HOST);
+        Call<List<Card>> call = retrofitApi.getCards(path,AUTH_KEY,HOST);
         call.enqueue(callback);
     }
+
+    /** Gets cards from server based on given class */
+    public void getAllCardBacks(Callback<List<CardBack>> callback){
+        Call<List<CardBack>> call = retrofitApi.getCardBacks(AUTH_KEY,HOST);
+        call.enqueue(callback);
+    }
+
 }

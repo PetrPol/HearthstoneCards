@@ -1,17 +1,14 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Card;
-import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.CardDao;
-import com.petrpol.hearthstonecards.webApi.RetrofitCards;
+import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
 import java.util.List;
 
@@ -25,12 +22,12 @@ public class CardsRepository {
 
     public static CardsRepository instance;
 
-    private RetrofitCards retrofitCards;
+    private RetrofitController retrofitController;
     private CardDao cardDao;
 
     public CardsRepository(CardsDatabase database) {
         this.cardDao = database.getCardDao();
-        retrofitCards = RetrofitCards.getInstance();
+        retrofitController = RetrofitController.getInstance();
 
     }
 
@@ -84,16 +81,16 @@ public class CardsRepository {
 
         switch (filterType){
             case SET:
-                retrofitCards.getCardsBySet(filterString,retroCallback);
+                retrofitController.getCardsBySet(filterString,retroCallback);
                 return cardDao.getCardsBySet(filterString);
             case TYPE:
-                retrofitCards.getCardsByType(filterString,retroCallback);
+                retrofitController.getCardsByType(filterString,retroCallback);
                 return cardDao.getCardsByType(filterString);
             case CLASS:
-                retrofitCards.getCardsByClass(filterString,retroCallback);
+                retrofitController.getCardsByClass(filterString,retroCallback);
                 return cardDao.getCardsByClass(filterString);
             default:
-                retrofitCards.getAllCards(retroCallback);
+                retrofitController.getAllCards(retroCallback);
                 return cardDao.getAllCards();
         }
     }

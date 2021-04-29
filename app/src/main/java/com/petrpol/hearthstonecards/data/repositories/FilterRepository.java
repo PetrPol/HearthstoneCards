@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.room.FilterDatabase;
 import com.petrpol.hearthstonecards.room.dao.FilterDao;
-import com.petrpol.hearthstonecards.webApi.RetrofitCards;
+import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
 import java.util.List;
 
@@ -20,12 +20,12 @@ public class FilterRepository {
 
     public static FilterRepository instance;
 
-    private RetrofitCards retrofitCards;
+    private RetrofitController retrofitController;
     private FilterDao filterDao;
 
     public FilterRepository(FilterDatabase database) {
         this.filterDao = database.getFilterDao();
-        retrofitCards = RetrofitCards.getInstance();
+        retrofitController = RetrofitController.getInstance();
 
     }
 
@@ -49,7 +49,7 @@ public class FilterRepository {
             callback.onFilterDataGetSuccess();
 
         //Create call to server
-        retrofitCards.getFilter(new Callback<Filter>() {
+        retrofitController.getFilter(new Callback<Filter>() {
             @Override
             public void onResponse(Call<Filter> call, Response<Filter> response) {
                 if (!response.isSuccessful()) {

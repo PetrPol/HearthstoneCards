@@ -31,6 +31,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<FilterType> filterType = new MutableLiveData<>();
     private MutableLiveData<FilterType> dataViewType = new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
+    private MutableLiveData<String> filterValue = new MutableLiveData<>();
 
     private CardsRepository mCardsRepository;
 
@@ -43,6 +44,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         isDataLoading.setValue(true);
         isFilterLoading.setValue(true);
         mErrorMessage.setValue(null);
+        filterValue.setValue(null);
 
         //Create repositories
         mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
@@ -51,6 +53,11 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         //Get cards and filter
         mCards = mCardsRepository.getCards( this);
         mFilterInfo = mFilterRepository.getFilter(this);
+    }
+
+    /** Cleans data to inflate to new view */
+    public void clean(){
+        mErrorMessage.setValue(null);
     }
 
     /** Updates filterViewShowed to true */
@@ -73,6 +80,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     public void getFilteredCards(String filterText){
         isDataLoading.postValue(true);
         mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
+        filterValue.postValue(filterText);
         dataViewType.postValue(filterType.getValue());
     }
 
@@ -113,6 +121,8 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     public LiveData<List<Filter>> getFilterData(){return mFilterInfo;}
 
     public LiveData<FilterType> getFilterType(){return filterType;}
+
+    public LiveData<String> getFilterValue(){return filterValue;}
 
     public LiveData<Boolean> getIsDataLoading() {
         return isDataLoading;

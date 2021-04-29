@@ -1,9 +1,17 @@
 package com.petrpol.hearthstonecards.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 /** Model class represents card back object */
+@Entity(tableName = "card_backs_table")
 public class CardBack {
 
+    @PrimaryKey
+    @NonNull
     private String cardBackId;
+
     private String name;
     private String description;
     private String img;
