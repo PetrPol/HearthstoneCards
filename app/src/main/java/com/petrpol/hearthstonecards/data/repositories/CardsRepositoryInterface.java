@@ -1,6 +1,6 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
-/** Interface of CardsRepository */
+/** Interface for CardsRepository */
 public interface CardsRepositoryInterface {
 
     void onCardDataGetSuccess();

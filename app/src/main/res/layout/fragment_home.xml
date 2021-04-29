@@ -50,7 +50,7 @@
             android:onClick="@{homeModelView::showFilter}"
             android:src="@drawable/ic_baseline_filter_list_24"
             android:visibility="@{!homeModelView.filterViewShowed}"
-            app:layout_constraintBottom_toTopOf="@id/main_snackbar"
+            app:layout_constraintBottom_toTopOf="@id/home_snackbar"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ProgressBar
@@ -78,7 +78,7 @@
             android:elevation="20dp"
             android:maxHeight="@{homeModelView.filterType}"
             android:visibility="@{homeModelView.filterViewShowed}"
-            app:layout_constraintBottom_toTopOf="@id/main_snackbar"
+            app:layout_constraintBottom_toTopOf="@id/home_snackbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -239,7 +239,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/main_snackbar"
+            android:id="@+id/home_snackbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:snackBar="@{homeModelView.errorMessage}"
