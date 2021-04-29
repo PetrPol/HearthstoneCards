@@ -1,5 +1,7 @@
 package com.petrpol.hearthstonecards.ui.home;
 
+import android.view.View;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -25,13 +27,15 @@ public class HomeViewModel extends ViewModel {
         mCards = mCardsRepository.getCards();
         filterInfo = mCardsRepository.getFilter();
         filterType.postValue(FilterType.NONE);
+        filterViewShowed.postValue(false);
     }
 
-    public void showFilter(){
+
+    public void showFilter(View view){
         filterViewShowed.postValue(true);
     }
 
-    public void hideFilter(){
+    public void hideFilter(View view){
         filterViewShowed.postValue(false);
         filterType.postValue(FilterType.NONE);
     }
