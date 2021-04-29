@@ -1,8 +1,9 @@
-package com.petrpol.hearthstonecards;
+package com.petrpol.hearthstonecards.ui;
 
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.petrpol.hearthstonecards.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

@@ -50,7 +50,7 @@
             android:onClick="@{homeModelView::showFilter}"
             android:src="@drawable/ic_baseline_filter_list_24"
             android:visibility="@{!homeModelView.filterViewShowed}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main_snackbar"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ProgressBar
@@ -76,9 +76,9 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/filter_view_background"
             android:elevation="20dp"
-            android:visibility="@{homeModelView.filterViewShowed}"
             android:maxHeight="@{homeModelView.filterType}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="@{homeModelView.filterViewShowed}"
+            app:layout_constraintBottom_toTopOf="@id/main_snackbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -101,8 +101,8 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_baseline_close_24"
                 android:onClick="@{homeModelView::hideFilter}"
+                android:src="@drawable/ic_baseline_close_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,11 +112,11 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:onClick="@{() -> homeModelView.setFilterType(FilterType.NONE)}"
                 android:src="@drawable/abc_vector_test"
+                android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
-                android:onClick="@{() -> homeModelView.setFilterType(FilterType.NONE)}"
                 app:tint="@color/colorTextDescription" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -237,6 +237,15 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_snackbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:snackBar="@{homeModelView.errorMessage}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

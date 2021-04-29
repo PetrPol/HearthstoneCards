@@ -22,6 +22,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<Boolean> isFilterLoading = new MutableLiveData<>();
     private MutableLiveData<Filter> filterInfo = new MutableLiveData<>();
     private MutableLiveData<FilterType> filterType = new MutableLiveData<>();
+    private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
 
     private CardsRepository mCardsRepository;
 
@@ -31,6 +32,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         filterViewShowed.setValue(false);
         isDataLoading.setValue(true);
         isFilterLoading.setValue(true);
+        mErrorMessage.setValue(null);
 
         mCardsRepository = CardsRepository.getInstance();
         mCardsRepository.getCards(mCards, this);
@@ -65,25 +67,23 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     @Override
     public void onCardDataGetSuccess() {
         isDataLoading.postValue(false);
-
     }
 
     @Override
     public void onCardDataGetFail(String message) {
         isDataLoading.postValue(false);
-
+        mErrorMessage.postValue(message);
     }
 
     @Override
     public void onFilterDataGetSuccess() {
         isFilterLoading.postValue(false);
-
     }
 
     @Override
     public void onFilterDataGetFail(String message) {
         isFilterLoading.postValue(false);
-
+        mErrorMessage.postValue(message);
     }
 
 
@@ -106,5 +106,9 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     public LiveData<Boolean> getIsFilterLoading() {
         return isFilterLoading;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return mErrorMessage;
     }
 }

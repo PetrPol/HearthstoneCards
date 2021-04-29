@@ -4,9 +4,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
 
 import com.petrpol.hearthstonecards.data.enums.FilterType;
+import com.petrpol.hearthstonecards.utils.SnackBarController;
 import com.squareup.picasso.Picasso;
 
 public class DataBindingAdapters {
@@ -23,6 +25,12 @@ public class DataBindingAdapters {
         Picasso.get()
                 .load(imageUrl)
                 .into(view);
+    }
+
+    @BindingAdapter("snackBar")
+    public static void showSnackBar(CoordinatorLayout view, String message){
+        if (message!=null)
+            SnackBarController.showDefaultSnackBar(view,message);
     }
 
     @BindingAdapter("android:maxHeight")

@@ -1,6 +1,7 @@
 package com.petrpol.hearthstonecards.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardsAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemCallback;
+import com.petrpol.hearthstonecards.utils.SnackBarController;
 
 /** Default Home fragment
  *  Contains list of cards an allows to filter cards by type,class or set*/

@@ -35,7 +35,7 @@ public class CardDetailFragment extends Fragment {
             CardID = CardDetailFragmentArgs.fromBundle(getArguments()).getCardId();
 
         //Create new model only if is null
-        if (cardDetailViewModel!= null)
+        if (cardDetailViewModel == null)
             cardDetailViewModel = new CardDetailViewModel();
 
         mBinding.setCardDetailViewModel(cardDetailViewModel);
