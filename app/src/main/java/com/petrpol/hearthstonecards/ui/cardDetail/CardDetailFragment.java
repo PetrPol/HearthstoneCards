@@ -30,9 +30,14 @@ public class CardDetailFragment extends Fragment {
         setHasOptionsMenu(true);
 
         //Get cardID from bundle
-        String CardID = CardDetailFragmentArgs.fromBundle(getArguments()).getCardId();
+        String CardID = null;
+        if (getArguments() != null)
+            CardID = CardDetailFragmentArgs.fromBundle(getArguments()).getCardId();
 
-        cardDetailViewModel = new CardDetailViewModel();
+        //Create new model only if is null
+        if (cardDetailViewModel!= null)
+            cardDetailViewModel = new CardDetailViewModel();
+
         mBinding.setCardDetailViewModel(cardDetailViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
         cardDetailViewModel.loadCard(CardID);

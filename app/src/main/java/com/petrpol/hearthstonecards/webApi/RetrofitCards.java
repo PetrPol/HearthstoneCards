@@ -24,11 +24,10 @@ public class RetrofitCards {
     private final String PATH_CLASS = "classes/";
 
     private static RetrofitCards instance;
-    private Retrofit retrofit;
     private CardsApi cardsApi;
 
     public RetrofitCards() {
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -43,21 +42,25 @@ public class RetrofitCards {
         return instance;
     }
 
+    /** Gets single card from server for given cardId */
     public void getCardDetail( String cardId, Callback<List<Card>> callback){
         Call<List<Card>> call = cardsApi.getCardDetail(cardId,AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
+    /** Gets filter object from server */
     public void getFilter(Callback<Filter> callback){
         Call<Filter> call = cardsApi.getFilter(AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
+    /** Gets All cards from server */
     public void getAllCards(Callback<List<Card>> callback){
         Call<List<Card>> call = cardsApi.getCards("classes/Priest",AUTH_KEY,HOST);
         call.enqueue(callback);
     }
 
+    /** Gets cards from server based on given type */
     public void getCardsByType(String type, Callback<List<Card>> callback){
         String path = PATH_TYPE + type;
         Log.d("TEST API TYPE", path);
@@ -65,6 +68,7 @@ public class RetrofitCards {
         call.enqueue(callback);
     }
 
+    /** Gets cards from server based on given set */
     public void getCardsBySet(String set, Callback<List<Card>> callback){
         String path = PATH_SET + set;
         Log.d("TEST API SET", path);
@@ -72,6 +76,7 @@ public class RetrofitCards {
         call.enqueue(callback);
     }
 
+    /** Gets cards from server based on given class */
     public void getCardsByClass(String requiredClass, Callback<List<Card>> callback){
         String path = PATH_CLASS + requiredClass;
         Log.d("TEST API CLASS", path);

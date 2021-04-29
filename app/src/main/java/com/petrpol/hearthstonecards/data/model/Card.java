@@ -31,10 +31,6 @@ public class Card {
         this.health = health;
     }
 
-    public String getArtistView(){
-        return "Artist: "+ artist;
-    }
-
     public String getCardId() {
         return cardId;
     }

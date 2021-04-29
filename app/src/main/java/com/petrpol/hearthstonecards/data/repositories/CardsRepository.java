@@ -27,99 +27,102 @@ public class CardsRepository {
         retrofitCards = RetrofitCards.getInstance();
     }
 
+    /** Gets instance (creates if is null) */
     public static synchronized CardsRepository getInstance(){
-        if (instance == null) {
+        if (instance == null)
             instance = new CardsRepository();
-        }
 
         return instance;
     }
 
-    public MutableLiveData<List<Card>> getFilteredCards(MutableLiveData<List<Card>> data, FilterType filterType, String filterString){
+    /** Gets Card list for given filter parameters
+     *  Calls callback when success or fail */
+    public void getFilteredCards(MutableLiveData<List<Card>> data, FilterType filterType, String filterString, CardsRepositoryInterface callback){
 
+        //Clear data
         data.postValue(null);
 
-        Callback<List<Card>> callback = new Callback<List<Card>>() {
+        Callback<List<Card>> retroCallback = new Callback<List<Card>>() {
             @Override
             public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
                 if (!response.isSuccessful()) {
-                    Log.e("RetroError",response.message());
+                    Log.e("RetroError", response.message());
+                    callback.onCardDataGetFail(response.message());
                     return;
                 }
 
-                prepareData(response.body());
+                if (response.body()!=null)
+                    prepareData(response.body());
+
                 data.postValue(response.body());
+
+                if (response.body()==null || response.body().size()==0)
+                    callback.onCardDataGetFail("No Data found for this filter");
+
+                callback.onCardDataGetSuccess();
             }
 
             @Override
             public void onFailure(Call<List<Card>> call, Throwable t) {
-                Log.e("RetroError",t.getMessage());
+                if (t.getMessage()!=null) {
+                    Log.e("RetroErrorFail", t.getMessage());
+                    callback.onCardDataGetFail(t.getMessage());
+                }
             }
         };
 
         switch (filterType){
             case SET:
-                retrofitCards.getCardsBySet(filterString,callback);
+                retrofitCards.getCardsBySet(filterString,retroCallback);
                 break;
             case TYPE:
-                retrofitCards.getCardsByType(filterString,callback);
+                retrofitCards.getCardsByType(filterString,retroCallback);
                 break;
             case CLASS:
-                retrofitCards.getCardsByClass(filterString,callback);
+                retrofitCards.getCardsByClass(filterString,retroCallback);
                 break;
+            case NONE:
+                retrofitCards.getAllCards(retroCallback);
         }
-
-        return data;
     }
 
-    public MutableLiveData<List<Card>> getCards(){
-
-        final MutableLiveData<List<Card>> data = new MutableLiveData<>();
-
-        retrofitCards.getAllCards(new Callback<List<Card>>() {
-            @Override
-            public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
-                if (!response.isSuccessful()) {
-                    Log.e("RetroError",response.message());
-                    return;
-                }
-
-                prepareData(response.body());
-                data.postValue(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Card>> call, Throwable t) {
-                Log.e("RetroError",t.getMessage());
-            }
-        });
-
-        return data;
+    /** Gets Card list of all cards
+     *  Calls callback when success or fail */
+    public void getCards(MutableLiveData<List<Card>> data, CardsRepositoryInterface callback){
+        getFilteredCards(data,FilterType.NONE,null,callback);
     }
 
-    public MutableLiveData<Filter> getFilter() {
-        final MutableLiveData<Filter> data = new MutableLiveData<>();
+    /** Gets filter object
+     *  Calls callback when success or fail */
+    public MutableLiveData<Filter> getFilter(MutableLiveData<Filter> data, CardsRepositoryInterface callback) {
 
         retrofitCards.getFilter(new Callback<Filter>() {
             @Override
             public void onResponse(Call<Filter> call, Response<Filter> response) {
                 if (!response.isSuccessful()) {
                     Log.e("RetroError",response.message());
+                    callback.onFilterDataGetFail(response.message());
                     return;
                 }
 
                 data.postValue(response.body());
+
+                callback.onFilterDataGetSuccess();
             }
 
             @Override
             public void onFailure(Call<Filter> call, Throwable t) {
-                Log.e("RetroError",t.getMessage());
+                if (t.getMessage() != null) {
+                    Log.e("RetroErrorFail", t.getMessage());
+                    callback.onFilterDataGetFail(t.getMessage());
+                }
             }
         });
 
         return data;
     }
 
+    /** Prepares list of cards - removes cards without image  */
     private void prepareData(List<Card> cardList){
         int i = 0;
         while (i < cardList.size()){
