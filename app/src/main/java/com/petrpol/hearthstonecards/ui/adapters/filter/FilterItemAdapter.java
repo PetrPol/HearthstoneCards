@@ -11,16 +11,18 @@ import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.ui.adapters.ARecyclerViewAdapter;
 
+import java.util.List;
+
 /** Adapter for Filter options of given type */
 public class FilterItemAdapter extends ARecyclerViewAdapter {
 
     Context mContext;
-    LiveData<Filter> mFilterData;
+    LiveData<List<Filter>> mFilterData;
     LiveData<FilterType> mFilterTypeData;
     FilterItemCallback filterItemCallback;
 
     /** Default constructor */
-    public FilterItemAdapter(Context mContext, LiveData<Filter> mFilterData, LiveData<FilterType> mFilterTypeData, FilterItemCallback filterItemCallback) {
+    public FilterItemAdapter(Context mContext, LiveData<List<Filter>> mFilterData, LiveData<FilterType> mFilterTypeData, FilterItemCallback filterItemCallback) {
         this.mContext = mContext;
         this.mFilterData = mFilterData;
         this.mFilterTypeData = mFilterTypeData;
@@ -33,16 +35,16 @@ public class FilterItemAdapter extends ARecyclerViewAdapter {
     @Override
     protected Object getItemForPosition(int position) {
 
-        if (mFilterData.getValue()==null || mFilterTypeData.getValue() == null)
+        if (mFilterData.getValue()==null || mFilterTypeData.getValue() == null || mFilterData.getValue().size()==0)
             return null;
 
         switch (mFilterTypeData.getValue()){
             case SET:
-                return mFilterData.getValue().getSets()[position];
+                return mFilterData.getValue().get(0).getSets()[position];
             case TYPE:
-                return mFilterData.getValue().getTypes()[position];
+                return mFilterData.getValue().get(0).getTypes()[position];
             case CLASS:
-                return mFilterData.getValue().getClasses()[position];
+                return mFilterData.getValue().get(0).getClasses()[position];
             default:
                 return null;
         }
@@ -64,16 +66,16 @@ public class FilterItemAdapter extends ARecyclerViewAdapter {
     @Override
     public int getItemCount() {
 
-        if (mFilterData.getValue()==null || mFilterTypeData.getValue() == null)
+        if (mFilterData.getValue()==null || mFilterTypeData.getValue() == null || mFilterData.getValue().size()==0)
             return 0;
 
         switch (mFilterTypeData.getValue()){
             case SET:
-                return mFilterData.getValue().getSets().length;
+                return mFilterData.getValue().get(0).getSets().length;
             case TYPE:
-                return mFilterData.getValue().getTypes().length;
+                return mFilterData.getValue().get(0).getTypes().length;
             case CLASS:
-                return mFilterData.getValue().getClasses().length;
+                return mFilterData.getValue().get(0).getClasses().length;
             default:
                 return 0;
         }

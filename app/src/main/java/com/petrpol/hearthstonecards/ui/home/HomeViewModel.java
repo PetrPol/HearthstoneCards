@@ -1,5 +1,6 @@
 package com.petrpol.hearthstonecards.ui.home;
 
+import android.content.Context;
 import android.view.View;
 
 import androidx.lifecycle.LiveData;
@@ -11,34 +12,46 @@ import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.data.repositories.CardsRepository;
 import com.petrpol.hearthstonecards.data.repositories.CardsRepositoryInterface;
+import com.petrpol.hearthstonecards.data.repositories.FilterRepository;
+import com.petrpol.hearthstonecards.data.repositories.FilterRepositoryInterface;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
+import com.petrpol.hearthstonecards.room.FilterDatabase;
+import com.petrpol.hearthstonecards.room.dao.CardDao;
 
 import java.util.List;
 
-public class HomeViewModel extends ViewModel implements CardsRepositoryInterface {
+public class HomeViewModel extends ViewModel implements CardsRepositoryInterface, FilterRepositoryInterface {
 
-    private MutableLiveData<List<Card>> mCards = new MutableLiveData<>();
+    private LiveData<List<Card>> mCards;
+    private LiveData<List<Filter>> mFilterInfo;
+
     private MutableLiveData<Boolean> filterViewShowed = new MutableLiveData<>();
     private MutableLiveData<Boolean> isDataLoading = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFilterLoading = new MutableLiveData<>();
-    private MutableLiveData<Filter> filterInfo = new MutableLiveData<>();
     private MutableLiveData<FilterType> filterType = new MutableLiveData<>();
+    private MutableLiveData<FilterType> dataViewType = new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
 
     private CardsRepository mCardsRepository;
 
-    public HomeViewModel() {
+    public HomeViewModel(Context context) {
 
+        //Default values
         filterType.setValue(FilterType.NONE);
+        dataViewType.setValue(FilterType.NONE);
         filterViewShowed.setValue(false);
         isDataLoading.setValue(true);
         isFilterLoading.setValue(true);
         mErrorMessage.setValue(null);
 
-        mCardsRepository = CardsRepository.getInstance();
-        mCardsRepository.getCards(mCards, this);
-        mCardsRepository.getFilter(filterInfo,this);
-    }
+        //Create repositories
+        mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
+        FilterRepository mFilterRepository = FilterRepository.getInstance(FilterDatabase.getInstance(context));
 
+        //Get cards and filter
+        mCards = mCardsRepository.getCards( this);
+        mFilterInfo = mFilterRepository.getFilter(this);
+    }
 
     /** Updates filterViewShowed to true */
     public void showFilter(View view){
@@ -59,7 +72,8 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     /** Updates card list with filter data */
     public void getFilteredCards(String filterText){
         isDataLoading.postValue(true);
-        mCardsRepository.getFilteredCards(mCards, filterType.getValue(), filterText,this);
+        mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
+        dataViewType.postValue(filterType.getValue());
     }
 
 
@@ -96,7 +110,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         return filterViewShowed;
     }
 
-    public LiveData<Filter> getFilterData(){return filterInfo;}
+    public LiveData<List<Filter>> getFilterData(){return mFilterInfo;}
 
     public LiveData<FilterType> getFilterType(){return filterType;}
 
@@ -110,5 +124,9 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     public LiveData<String> getErrorMessage() {
         return mErrorMessage;
+    }
+
+    public LiveData<FilterType> getDataViewType() {
+        return dataViewType;
     }
 }

@@ -1,12 +1,16 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
+import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.Filter;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
+import com.petrpol.hearthstonecards.room.dao.CardDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitCards;
 
 import java.util.List;
@@ -22,25 +26,26 @@ public class CardsRepository {
     public static CardsRepository instance;
 
     private RetrofitCards retrofitCards;
+    private CardDao cardDao;
 
-    public CardsRepository() {
+    public CardsRepository(CardsDatabase database) {
+        this.cardDao = database.getCardDao();
         retrofitCards = RetrofitCards.getInstance();
+
     }
 
     /** Gets instance (creates if is null) */
-    public static synchronized CardsRepository getInstance(){
+    public static synchronized CardsRepository getInstance(CardsDatabase database){
         if (instance == null)
-            instance = new CardsRepository();
+            instance = new CardsRepository(database);
 
         return instance;
     }
 
-    /** Gets Card list for given filter parameters
+    /** Gets Card list for given filter parameters from DB
+     *  Calls request to server to get all matching cards
      *  Calls callback when success or fail */
-    public void getFilteredCards(MutableLiveData<List<Card>> data, FilterType filterType, String filterString, CardsRepositoryInterface callback){
-
-        //Clear data
-        data.postValue(null);
+    public LiveData<List<Card>> getFilteredCards(FilterType filterType, String filterString, CardsRepositoryInterface callback){
 
         Callback<List<Card>> retroCallback = new Callback<List<Card>>() {
             @Override
@@ -54,10 +59,16 @@ public class CardsRepository {
                 if (response.body()!=null)
                     prepareData(response.body());
 
-                data.postValue(response.body());
 
-                if (response.body()==null || response.body().size()==0)
+                if (response.body()==null || response.body().size()==0) {
                     callback.onCardDataGetFail("No Data found for this filter");
+                    return;
+                }
+
+                //Store cards TODO
+                for (Card c: response.body()) {
+                    cardDao.addCard(c);
+                }
 
                 callback.onCardDataGetSuccess();
             }
@@ -74,52 +85,24 @@ public class CardsRepository {
         switch (filterType){
             case SET:
                 retrofitCards.getCardsBySet(filterString,retroCallback);
-                break;
+                return cardDao.getCardsBySet(filterString);
             case TYPE:
                 retrofitCards.getCardsByType(filterString,retroCallback);
-                break;
+                return cardDao.getCardsByType(filterString);
             case CLASS:
                 retrofitCards.getCardsByClass(filterString,retroCallback);
-                break;
-            case NONE:
+                return cardDao.getCardsByClass(filterString);
+            default:
                 retrofitCards.getAllCards(retroCallback);
+                return cardDao.getAllCards();
         }
     }
 
-    /** Gets Card list of all cards
+    /** Gets Card list of all cards from DB
+     *  Calls request to server to get all cards
      *  Calls callback when success or fail */
-    public void getCards(MutableLiveData<List<Card>> data, CardsRepositoryInterface callback){
-        getFilteredCards(data,FilterType.NONE,null,callback);
-    }
-
-    /** Gets filter object
-     *  Calls callback when success or fail */
-    public MutableLiveData<Filter> getFilter(MutableLiveData<Filter> data, CardsRepositoryInterface callback) {
-
-        retrofitCards.getFilter(new Callback<Filter>() {
-            @Override
-            public void onResponse(Call<Filter> call, Response<Filter> response) {
-                if (!response.isSuccessful()) {
-                    Log.e("RetroError",response.message());
-                    callback.onFilterDataGetFail(response.message());
-                    return;
-                }
-
-                data.postValue(response.body());
-
-                callback.onFilterDataGetSuccess();
-            }
-
-            @Override
-            public void onFailure(Call<Filter> call, Throwable t) {
-                if (t.getMessage() != null) {
-                    Log.e("RetroErrorFail", t.getMessage());
-                    callback.onFilterDataGetFail(t.getMessage());
-                }
-            }
-        });
-
-        return data;
+    public LiveData<List<Card>>  getCards(CardsRepositoryInterface callback){
+        return getFilteredCards(FilterType.NONE,null,callback);
     }
 
     /** Prepares list of cards - removes cards without image  */

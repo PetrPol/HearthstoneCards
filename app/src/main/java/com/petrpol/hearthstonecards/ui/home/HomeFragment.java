@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.R;
+import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.databinding.FragmentHomeBinding;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardsAdapter;
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
 
         //Create new model only if is null
         if (homeViewModel==null)
-            homeViewModel = new HomeViewModel();
+            homeViewModel = new HomeViewModel(getContext());
 
         mBinding.setHomeModelView(homeViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
@@ -52,10 +53,14 @@ public class HomeFragment extends Fragment {
 
         //Card Recycler
         RecyclerView cardsRecyclerView = root.findViewById(R.id.home_recycler_view);
-            CardsAdapter cardsAdapter = new CardsAdapter(getContext(), homeViewModel.getCards(), (CardItemCallback) this::showDetail);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            cardsRecyclerView.setLayoutManager(layoutManager);
+
+        //Observe dara view changed - create new adapter
+        homeViewModel.getDataViewType().observe(getViewLifecycleOwner(), filterType -> {
+            CardsAdapter cardsAdapter = new CardsAdapter(getContext(), homeViewModel.getCards(), this::showDetail);
             cardsRecyclerView.setAdapter(cardsAdapter);
+        });
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        cardsRecyclerView.setLayoutManager(layoutManager);
 
         //Filter Recycler
         FilterItemCallback filterItemCallback = filter -> {
@@ -64,10 +69,10 @@ public class HomeFragment extends Fragment {
         };
 
         RecyclerView filterRecyclerView = root.findViewById(R.id.home_filter_recycler_view);
-            FilterItemAdapter filterAdapter = new FilterItemAdapter(getContext(), homeViewModel.getFilterData(), homeViewModel.getFilterType(), filterItemCallback);
-            layoutManager = new LinearLayoutManager(getContext());
-            filterRecyclerView.setLayoutManager(layoutManager);
-            filterRecyclerView.setAdapter(filterAdapter);
+        FilterItemAdapter filterAdapter = new FilterItemAdapter(getContext(), homeViewModel.getFilterData(), homeViewModel.getFilterType(), filterItemCallback);
+        layoutManager = new LinearLayoutManager(getContext());
+        filterRecyclerView.setLayoutManager(layoutManager);
+        filterRecyclerView.setAdapter(filterAdapter);
     }
 
     /** Navigates to CardDetailFragment - passes CardId as argument */

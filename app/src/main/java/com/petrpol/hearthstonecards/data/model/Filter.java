@@ -1,9 +1,14 @@
 package com.petrpol.hearthstonecards.data.model;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "filter_table")
 public class Filter {
 
+    @PrimaryKey
+    @NonNull
     private String patch;
     private String[] classes;
     private String[] sets;

@@ -1,9 +1,17 @@
 package com.petrpol.hearthstonecards.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 /** Model class represents one card  */
+@Entity(tableName = "cards_table")
 public class Card {
 
+    @PrimaryKey
+    @NonNull
     private String cardId;
+
     private String name;
     private String cardSet;
     private String type;
@@ -11,12 +19,11 @@ public class Card {
     private String text;
     private String artist;
     private String img;
+    private String playerClass;
     private String imgGold;
-    private int cost;
-    private int attack;
-    private int health;
+    private String cost;
 
-    public Card(String cardId, String name, String cardSet, String type, String flavor, String text, String artist, String img, String imgGold, int cost, int attack, int health) {
+    public Card(@NonNull String cardId, String name, String cardSet, String type, String flavor, String text, String artist, String img, String playerClass, String imgGold, String cost) {
         this.cardId = cardId;
         this.name = name;
         this.cardSet = cardSet;
@@ -25,10 +32,9 @@ public class Card {
         this.text = text;
         this.artist = artist;
         this.img = img;
+        this.playerClass = playerClass;
         this.imgGold = imgGold;
         this.cost = cost;
-        this.attack = attack;
-        this.health = health;
     }
 
     public String getCardId() {
@@ -51,10 +57,6 @@ public class Card {
         return cardSet;
     }
 
-    public void setCardSet(String cardSet) {
-        this.cardSet = cardSet;
-    }
-
     public String getType() {
         return type;
     }
@@ -73,10 +75,6 @@ public class Card {
 
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getArtist() {
@@ -99,31 +97,31 @@ public class Card {
         return imgGold;
     }
 
+    public void setCardSet(String cardSet) {
+        this.cardSet = cardSet;
+    }
+
+    public String getPlayerClass() {
+        return playerClass;
+    }
+
+    public void setPlayerClass(String playerClass) {
+        this.playerClass = playerClass;
+    }
+
     public void setImgGold(String imgGold) {
         this.imgGold = imgGold;
     }
 
-    public int getCost() {
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(String cost) {
         this.cost = cost;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 }

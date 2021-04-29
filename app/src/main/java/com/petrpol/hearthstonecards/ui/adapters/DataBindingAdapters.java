@@ -3,13 +3,17 @@ package com.petrpol.hearthstonecards.ui.adapters;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
 
 import com.petrpol.hearthstonecards.data.enums.FilterType;
+import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class DataBindingAdapters {
 
@@ -31,6 +35,14 @@ public class DataBindingAdapters {
     public static void showSnackBar(CoordinatorLayout view, String message){
         if (message!=null)
             SnackBarController.showDefaultSnackBar(view,message);
+    }
+
+    @BindingAdapter("android:text")
+    public static void setText(TextView view, List<Filter> filters){
+        if (filters != null && filters.size() > 0)
+            view.setText(filters.get(0).getPatch());
+        else
+            view.setText("");
     }
 
     @BindingAdapter("android:maxHeight")
