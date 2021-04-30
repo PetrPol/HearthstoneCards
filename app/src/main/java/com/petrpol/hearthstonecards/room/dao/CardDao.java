@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface CardDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addCard(Card card);
 
     @Query("SELECT * FROM cards_table")

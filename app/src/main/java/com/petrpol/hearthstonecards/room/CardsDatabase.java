@@ -19,7 +19,7 @@ public abstract class CardsDatabase extends RoomDatabase {
 
     public static synchronized CardsDatabase getInstance(Context context){
         if (instance==null)
-            instance = Room.databaseBuilder(context.getApplicationContext(),CardsDatabase.class,"cards_database").allowMainThreadQueries().build();
+            instance = Room.databaseBuilder(context.getApplicationContext(),CardsDatabase.class,"cards_database").build();
 
         return instance;
     }

@@ -11,6 +11,7 @@ import com.petrpol.hearthstonecards.room.dao.CardDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,12 +63,13 @@ public class CardsRepository {
                     return;
                 }
 
-                //Store cards TODO
-                for (Card c: response.body()) {
-                    cardDao.addCard(c);
-                }
-
-                callback.onCardDataGetSuccess();
+                //Store cards
+                new Thread(() -> {
+                    for (Card c: response.body()) {
+                        cardDao.addCard(c);
+                    }
+                    callback.onCardDataGetSuccess();
+                }).start();
             }
 
             @Override

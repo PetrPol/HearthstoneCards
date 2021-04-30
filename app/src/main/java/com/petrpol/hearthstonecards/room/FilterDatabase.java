@@ -21,7 +21,7 @@ public abstract class FilterDatabase extends RoomDatabase {
 
     public static synchronized FilterDatabase getInstance(Context context){
         if (instance==null)
-            instance = Room.databaseBuilder(context.getApplicationContext(),FilterDatabase.class,"filters_database").allowMainThreadQueries().build();
+            instance = Room.databaseBuilder(context.getApplicationContext(),FilterDatabase.class,"filters_database").build();
 
         return instance;
     }

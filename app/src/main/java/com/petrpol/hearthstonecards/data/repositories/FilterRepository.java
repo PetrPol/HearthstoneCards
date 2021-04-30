@@ -59,9 +59,10 @@ public class FilterRepository {
                 }
 
                 // Store filter to DB TODO
-                filterDao.addFilter(response.body());
-
-                callback.onFilterDataGetSuccess();
+                new Thread(() -> {
+                    filterDao.addFilter(response.body());
+                    callback.onFilterDataGetSuccess();
+                }).start();
             }
 
             @Override

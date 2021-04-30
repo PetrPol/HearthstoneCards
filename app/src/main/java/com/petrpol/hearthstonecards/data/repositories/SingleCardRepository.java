@@ -53,8 +53,10 @@ public class SingleCardRepository {
                 }
 
                 if (response.body()!=null && response.body().size()>0) {
-                    //cardDao.addCard(response.body().get(0));
-                    callback.onCardDataGetSuccess();
+                    new Thread(() -> {
+                        cardDao.addCard(response.body().get(0));
+                        callback.onCardDataGetSuccess();
+                    }).start();
                 }
                 else
                     callback.onCardDataGetFail("Card not found");

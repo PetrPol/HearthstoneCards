@@ -21,7 +21,7 @@ public abstract class CardBacksDatabase extends RoomDatabase {
 
     public static synchronized CardBacksDatabase getInstance(Context context){
         if (instance==null)
-            instance = Room.databaseBuilder(context.getApplicationContext(), CardBacksDatabase.class,"card_backs_database").allowMainThreadQueries().build();
+            instance = Room.databaseBuilder(context.getApplicationContext(), CardBacksDatabase.class,"card_backs_database").build();
 
         return instance;
     }
