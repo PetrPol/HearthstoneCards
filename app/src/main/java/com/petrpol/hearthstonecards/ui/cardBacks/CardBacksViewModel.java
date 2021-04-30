@@ -21,18 +21,22 @@ public class CardBacksViewModel extends ViewModel implements CardBacksRepository
 
 
     private LiveData<List<CardBack>> mCardBacks;
+    private MutableLiveData<Boolean> isDataLoading= new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
 
     private CardBackRepository mCardBacksRepository;
 
     public CardBacksViewModel(Context context) {
+        isDataLoading.setValue(true);
+
         mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
         mCardBacks = mCardBacksRepository.getCardBacks(this);
     }
 
     //Repository interface methods
     @Override
-    public void onCardBackDataGetSuccess() {}
+    public void onCardBackDataGetSuccess() {
+        isDataLoading.postValue(false);}
 
     @Override
     public void onCardBackDataGetFail(String message) {
@@ -48,4 +52,7 @@ public class CardBacksViewModel extends ViewModel implements CardBacksRepository
         return mErrorMessage;
     }
 
+    public LiveData<Boolean> getIsDataLoading() {
+        return isDataLoading;
+    }
 }
