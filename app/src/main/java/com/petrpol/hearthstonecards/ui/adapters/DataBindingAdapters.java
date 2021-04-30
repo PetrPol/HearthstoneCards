@@ -79,10 +79,20 @@ public class DataBindingAdapters {
     @BindingAdapter({"filterType","filterShowed"})
     public static void setFilterMotion(MotionLayout motionLayout, FilterType filterType, Boolean filterShowed) {
         if (filterType == null || !filterShowed)
-            motionLayout.transitionToState(R.id.closed);
-        else if (filterType==FilterType.NONE)
             motionLayout.transitionToState(R.id.start);
+        else if (filterType==FilterType.NONE)
+            motionLayout.transitionToState(R.id.filter);
         else
             motionLayout.transitionToState(R.id.end);
     }
+
+    @BindingAdapter({"containsLore"})
+    public static void setText(TextView view, Boolean containsLore) {
+        if (containsLore)
+            view.setText(R.string.card_detail_flavor_title);
+        else
+            view.setText(R.string.card_detail_flavor_title_empty);
+
+    }
+
 }

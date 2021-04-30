@@ -33,6 +33,7 @@
                     android:layout_height="400dp"
                     android:layout_marginStart="16dp"
                     android:scaleType="fitCenter"
+                    android:transitionName="card_detail_image"
                     app:imageUrl="@{cardDetailViewModel.card.img}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/card_detail_flavor_title"
+                    app:containsLore="@{cardDetailViewModel.card.flavor!=null}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/card_detail_artist" />

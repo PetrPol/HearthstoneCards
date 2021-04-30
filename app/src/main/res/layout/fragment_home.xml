@@ -106,7 +106,6 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/filter_view_background"
             android:elevation="20dp"
-            app:layoutDescription="@xml/fragment_home_xml_home_filter_constraint_scene"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/home_snackbar"

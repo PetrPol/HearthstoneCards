@@ -53,7 +53,7 @@ public class SingleCardRepository {
                 }
 
                 if (response.body()!=null && response.body().size()>0) {
-                    cardDao.addCard(response.body().get(0));
+                    //cardDao.addCard(response.body().get(0));
                     callback.onCardDataGetSuccess();
                 }
                 else

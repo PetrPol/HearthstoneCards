@@ -1,8 +1,11 @@
 package com.petrpol.hearthstonecards.ui.cardDetail;
 
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,10 +27,15 @@ public class CardDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         //Data binding create view
         FragmentCardDetailBinding mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_card_detail, container, false);
         root = mBinding.getRoot();
         setHasOptionsMenu(true);
+
+        //Setup animation
+        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
+        setSharedElementReturnTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
 
         //Get cardID from bundle
         String CardID = null;
@@ -41,6 +49,7 @@ public class CardDetailFragment extends Fragment {
         mBinding.setCardDetailViewModel(cardDetailViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
         cardDetailViewModel.loadCard(CardID);
+
 
         return root;
     }

@@ -13,5 +13,6 @@
 
     //Card Detail Fragment
     <string name="card_detail_flavor_title">Lore:</string>
+    <string name="card_detail_flavor_title_empty">This card has no lore information</string>
 
 </resources>

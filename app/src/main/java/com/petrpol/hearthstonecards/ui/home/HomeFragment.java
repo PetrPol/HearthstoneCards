@@ -1,10 +1,13 @@
 package com.petrpol.hearthstonecards.ui.home;
 
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.motion.widget.MotionLayout;
@@ -12,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,8 +84,10 @@ public class HomeFragment extends Fragment {
     }
 
     /** Navigates to CardDetailFragment - passes CardId as argument */
-    public void showDetail(String cardId){
+    public void showDetail(String cardId, View imageView){
+        Log.i("TEST IMAGE", imageView.getTransitionName());
         HomeFragmentDirections.ActionNavigationHomeToCardDetailFragment action = HomeFragmentDirections.actionNavigationHomeToCardDetailFragment(cardId);
-        Navigation.findNavController(root).navigate(action);
+        FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().addSharedElement(imageView,"card_detail_image").build();
+        Navigation.findNavController(imageView).navigate(action,extras);
     }
 }
