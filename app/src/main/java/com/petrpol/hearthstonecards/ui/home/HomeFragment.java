@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -28,6 +29,7 @@ import com.petrpol.hearthstonecards.utils.SnackBarController;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private MotionLayout motionLayout;
     private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 
     /** Setups recycler views */
     private void setupRecyclerViews(){

@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
 
+import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
@@ -74,13 +76,13 @@ public class DataBindingAdapters {
             view.setText("");
     }
 
-    @BindingAdapter("android:maxHeight")
-    public static void setLayoutHeight(View view, FilterType filterType) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if (filterType != null && filterType != FilterType.NONE)
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+    @BindingAdapter({"filterType","filterShowed"})
+    public static void setFilterMotion(MotionLayout motionLayout, FilterType filterType, Boolean filterShowed) {
+        if (filterType == null || !filterShowed)
+            motionLayout.transitionToState(R.id.closed);
+        else if (filterType==FilterType.NONE)
+            motionLayout.transitionToState(R.id.start);
         else
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        view.setLayoutParams(layoutParams);
+            motionLayout.transitionToState(R.id.end);
     }
 }
