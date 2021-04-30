@@ -11,6 +11,8 @@
     <string name="filter_set">Set</string>
     <string name="filter_class">Class</string>
     <string name="patch_text">patch: %s</string>
+    <string name="no_cards_title">No cards found</string>
+    <string name="no_cards_description">For this %s unfortunately there are no cards. Try to use another filter.</string>
 
     //Card Detail Fragment
     <string name="card_detail_flavor_title">Lore:</string>
@@ -18,6 +20,6 @@
     <string name="show_gold_title">Show golden</string>
 
     //Card back fragment
-    <string name="card_back_title">%d cards backs found</string>
+    <string name="card_back_title">Cards backs found: %d</string>
 
 </resources>

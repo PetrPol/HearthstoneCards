@@ -29,6 +29,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/home_list_no_cards_image"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="32dp"
+                android:visibility="@{homeModelView.noDataFound}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/home_recycler_view"
+                app:srcCompat="@drawable/no_cards_screen"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/home_list_no_cards_title"
+                style="@style/ItemHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_cards_title"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="@{homeModelView.noDataFound}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_image" />
+
+            <TextView
+                android:id="@+id/home_list_no_cards_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:gravity="center"
+                app:noCardsText="@{homeModelView.dataViewType}"
+                android:visibility="@{homeModelView.noDataFound}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_title" />
+
             <TextView
                 android:id="@+id/home_list_title"
                 style="@style/ItemHeadline"
@@ -50,8 +89,10 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_list_title">
+                app:layout_constraintTop_toBottomOf="@+id/home_list_title"
+                app:layout_constraintVertical_bias="1.0">
 
             </androidx.recyclerview.widget.RecyclerView>
 

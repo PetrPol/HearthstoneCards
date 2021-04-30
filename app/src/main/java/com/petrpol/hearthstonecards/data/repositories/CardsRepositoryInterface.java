@@ -5,4 +5,5 @@ public interface CardsRepositoryInterface {
 
     void onCardDataGetSuccess();
     void onCardDataGetFail(String message);
+    void onCardDataGetFailNoCards();
 }

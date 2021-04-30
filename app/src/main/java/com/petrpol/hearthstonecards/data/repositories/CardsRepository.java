@@ -50,7 +50,7 @@ public class CardsRepository {
             public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
                 if (!response.isSuccessful()) {
                     Log.e("RetroError", response.message());
-                    callback.onCardDataGetFail(response.message());
+                    callback.onCardDataGetFailNoCards();
                     return;
                 }
 
@@ -59,7 +59,7 @@ public class CardsRepository {
 
 
                 if (response.body()==null || response.body().size()==0) {
-                    callback.onCardDataGetFail("No Data found for this filter");
+                    callback.onCardDataGetFailNoCards();
                     return;
                 }
 

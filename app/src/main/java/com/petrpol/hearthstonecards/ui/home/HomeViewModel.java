@@ -32,6 +32,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<FilterType> dataViewType = new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
     private MutableLiveData<String> filterValue = new MutableLiveData<>();
+    private MutableLiveData<Boolean> noDataFound = new MutableLiveData<>();
 
     private CardsRepository mCardsRepository;
 
@@ -45,6 +46,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         isFilterLoading.setValue(true);
         mErrorMessage.setValue(null);
         filterValue.setValue(null);
+        noDataFound.setValue(false);
 
         //Create repositories
         mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
@@ -79,6 +81,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     /** Updates card list with filter data */
     public void getFilteredCards(String filterText){
         isDataLoading.postValue(true);
+        noDataFound.postValue(false);
         mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
         filterValue.postValue(filterText);
         dataViewType.postValue(filterType.getValue());
@@ -94,6 +97,12 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     public void onCardDataGetFail(String message) {
         isDataLoading.postValue(false);
         mErrorMessage.postValue(message);
+    }
+
+    @Override
+    public void onCardDataGetFailNoCards() {
+        noDataFound.postValue(true);
+        isDataLoading.postValue(false);
     }
 
     @Override
@@ -137,5 +146,9 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     public LiveData<FilterType> getDataViewType() {
         return dataViewType;
+    }
+
+    public LiveData<Boolean> getNoDataFound() {
+        return noDataFound;
     }
 }

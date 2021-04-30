@@ -120,6 +120,12 @@ public class DataBindingAdapters {
             view.setText("");
     }
 
+    @BindingAdapter("noCardsText")
+    public static void setNoCardsText(TextView view, FilterType viewType){
+        view.setText(view.getContext().getString(R.string.no_cards_description,viewType.toString()));
+    }
+
+
     @BindingAdapter({"filterType","filterShowed"})
     public static void setFilterMotion(MotionLayout motionLayout, FilterType filterType, Boolean filterShowed) {
         if (filterType == null || !filterShowed)

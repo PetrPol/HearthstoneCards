@@ -52,9 +52,11 @@ public class CardBackRepository {
                 }
 
                 if (response.body()!=null && response.body().size()>0) {
-                    for (CardBack c:response.body())
-                        cardBackDao.addCardBack(c);
-                    callback.onCardBackDataGetSuccess();
+                    new Thread(() -> {
+                        for (CardBack c:response.body())
+                            cardBackDao.addCardBack(c);
+                        callback.onCardBackDataGetSuccess();
+                    }).start();
                 }
                 else
                     callback.onCardBackDataGetFail("No card backs found");
