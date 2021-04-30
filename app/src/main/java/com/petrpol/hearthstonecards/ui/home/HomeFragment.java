@@ -85,7 +85,6 @@ public class HomeFragment extends Fragment {
 
     /** Navigates to CardDetailFragment - passes CardId as argument */
     public void showDetail(String cardId, View imageView){
-        Log.i("TEST IMAGE", imageView.getTransitionName());
         HomeFragmentDirections.ActionNavigationHomeToCardDetailFragment action = HomeFragmentDirections.actionNavigationHomeToCardDetailFragment(cardId);
         FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().addSharedElement(imageView,"card_detail_image").build();
         Navigation.findNavController(imageView).navigate(action,extras);

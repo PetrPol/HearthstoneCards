@@ -1,5 +1,6 @@
 package com.petrpol.hearthstonecards.ui.adapters;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Filter;
@@ -93,6 +95,13 @@ public class DataBindingAdapters {
         else
             view.setText(R.string.card_detail_flavor_title_empty);
 
+    }
+    @BindingAdapter({"showFilterIcon"})
+    public static void showFilterIcon(FloatingActionButton view, boolean showIcon) {
+        if(showIcon)
+            view.setImageResource(R.drawable.ic_baseline_filter_list_24);
+        else
+            view.setImageDrawable(null);
     }
 
 }
