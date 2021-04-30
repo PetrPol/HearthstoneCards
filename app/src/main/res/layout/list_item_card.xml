@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -25,18 +26,21 @@
         <TextView
             android:id="@+id/list_item_card_name"
             style="@style/ItemHeadline"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:singleLine="true"
             android:text="@{item.name}"
+            app:layout_constraintEnd_toStartOf="@+id/list_item_card_cost_image"
             app:layout_constraintStart_toEndOf="@+id/list_item_card_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/list_item_card_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="81dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
@@ -55,38 +59,91 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:singleLine="true"
+            android:lines="2"
+            android:singleLine="false"
             android:text="@{item.flavor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/list_item_card_image"
             app:layout_constraintTop_toBottomOf="@+id/list_item_card_name" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:id="@+id/list_item_card_health_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/filter_image_background"
-            android:padding="2dp"
+            android:visibility="@{item.health!=null}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_health" />
+            app:srcCompat="@drawable/ic_health_2"
+            app:tint="@color/colorBackground" />
+
+        <ImageView
+            android:id="@+id/list_item_card_attack_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/filter_image_background"
+            android:visibility="@{item.attack!=null}"
+            app:layout_constraintEnd_toStartOf="@+id/list_item_card_health_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_attack_2"
+            app:tint="@color/colorBackground" />
+
+        <ImageView
+            android:id="@+id/list_item_card_cost_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/filter_image_background"
+            android:visibility="@{item.cost!=null}"
+            app:layout_constraintEnd_toStartOf="@id/list_item_card_attack_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_cost_2"
+            app:tint="@color/colorBackground" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/list_item_card_health"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="1dp"
-            android:text="8"
-            android:textColor="@color/colorPrimary"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            android:text="@{item.health}"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            android:visibility="@{item.health!=null}"
+            app:layout_constraintBottom_toBottomOf="@+id/list_item_card_health_image"
+            app:layout_constraintEnd_toEndOf="@+id/list_item_card_health_image"
+            app:layout_constraintStart_toStartOf="@+id/list_item_card_health_image"
+            app:layout_constraintTop_toTopOf="@+id/list_item_card_health_image" />
+
+        <TextView
+            android:id="@+id/list_item_card_attack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.attack}"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            android:visibility="@{item.attack!=null}"
+            app:layout_constraintBottom_toBottomOf="@id/list_item_card_attack_image"
+            app:layout_constraintEnd_toEndOf="@id/list_item_card_attack_image"
+            app:layout_constraintStart_toStartOf="@id/list_item_card_attack_image"
+            app:layout_constraintTop_toTopOf="@id/list_item_card_attack_image" />
+
+        <TextView
+            android:id="@+id/list_item_card_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.cost}"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            android:visibility="@{item.cost!=null}"
+            app:layout_constraintBottom_toBottomOf="@id/list_item_card_cost_image"
+            app:layout_constraintEnd_toEndOf="@id/list_item_card_cost_image"
+            app:layout_constraintStart_toStartOf="@id/list_item_card_cost_image"
+            app:layout_constraintTop_toTopOf="@id/list_item_card_cost_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

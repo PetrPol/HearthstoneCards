@@ -10,6 +10,7 @@
     <string name="filter_type">Type</string>
     <string name="filter_set">Set</string>
     <string name="filter_class">Class</string>
+    <string name="patch_text">patch: %s</string>
 
     //Card Detail Fragment
     <string name="card_detail_flavor_title">Lore:</string>

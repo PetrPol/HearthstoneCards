@@ -107,7 +107,7 @@ public class DataBindingAdapters {
     @BindingAdapter("android:text")
     public static void setText(TextView view, List<Filter> filters){
         if (filters != null && filters.size() > 0)
-            view.setText(filters.get(0).getPatch());
+            view.setText(view.getContext().getString(R.string.patch_text,filters.get(0).getPatch()));
         else
             view.setText("");
     }
