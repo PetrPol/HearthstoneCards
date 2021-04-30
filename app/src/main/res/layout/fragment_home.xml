@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:filterType="@{homeModelView.dataViewType}"
                 app:filterValue="@{homeModelView.filterValue}"
@@ -82,10 +83,11 @@
                 android:clickable="@{!homeModelView.isFilterLoading}"
                 android:focusable="@{!homeModelView.isFilterLoading}"
                 android:onClick="@{homeModelView::showFilter}"
-                app:showFilterIcon = "@{!homeModelView.isFilterLoading}"
+                android:tint="@color/colorBackground"
                 android:visibility="@{!homeModelView.filterViewShowed}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:showFilterIcon="@{!homeModelView.isFilterLoading}" />
 
             <ProgressBar
                 android:id="@+id/home_filter_fab_loading"
@@ -93,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
-                android:indeterminateTint="@color/colorTextDescription"
+                android:indeterminateTint="@color/colorBackground"
                 android:visibility="@{homeModelView.isFilterLoading}"
                 app:layout_constraintBottom_toBottomOf="@+id/home_filter_fab"
                 app:layout_constraintEnd_toEndOf="@+id/home_filter_fab"
@@ -197,7 +199,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/filter_image_background"
                         android:src="@drawable/ic_type"
-                        app:tint="@color/white" />
+                        app:tint="@color/colorBackground" />
 
                     <TextView
                         android:id="@+id/home_filter_text_type"
@@ -223,7 +225,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/filter_image_background"
                         android:src="@drawable/ic_set"
-                        app:tint="@color/white" />
+                        app:tint="@color/colorBackground" />
 
                     <TextView
                         android:id="@+id/home_filter_text_set"
@@ -249,7 +251,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/filter_image_background"
                         android:src="@drawable/ic_class"
-                        app:tint="@color/white" />
+                        app:tint="@color/colorBackground" />
 
                     <TextView
                         android:id="@+id/home_filter_text_class"

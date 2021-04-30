@@ -55,11 +55,7 @@ public class CardDetailFragment extends Fragment {
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
         cardDetailViewModel.loadCard(CardID);
 
-        //Observe to show golden menu button
-        cardDetailViewModel.getCard().observe(getViewLifecycleOwner(), card -> {
-            if(card.getImgGold()!=null && !card.getImgGold().isEmpty())
-                menu.findItem(R.id.card_detail_show_golden).setVisible(true);
-        });
+
 
         return root;
     }
@@ -67,7 +63,12 @@ public class CardDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.card_detail_menu, menu);
-        this.menu = menu;
+
+        //Observe to show golden menu button
+        cardDetailViewModel.getCard().observe(getViewLifecycleOwner(), card -> {
+            if(card.getImgGold()!=null && !card.getImgGold().isEmpty())
+                menu.findItem(R.id.card_detail_show_golden).setVisible(true);
+        });
     }
 
     /** Handles back arrow in Options menu - pops back stack */

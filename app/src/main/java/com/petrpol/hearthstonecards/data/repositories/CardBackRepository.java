@@ -41,8 +41,6 @@ public class CardBackRepository {
 
         LiveData<List<CardBack>> data = cardBackDao.getAllCardBacks();
 
-        Log.i("TEST DATA", (data==null)+"");
-
         retrofitController.getAllCardBacks(new Callback<List<CardBack>>() {
             @Override
             public void onResponse(Call<List<CardBack>> call, Response<List<CardBack>> response) {

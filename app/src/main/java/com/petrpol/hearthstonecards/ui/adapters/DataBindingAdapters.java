@@ -62,6 +62,10 @@ public class DataBindingAdapters {
                     .load(imageUrl)
                     .placeholder(R.drawable.card_back_placeholder)
                     .into(view);
+
+            //Fetch golden image to quick show
+            if (!showGolden && card.getImgGold()!= null && !card.getImgGold().isEmpty())
+                Picasso.get().load(card.getImgGold()).fetch();
         }
     }
 

@@ -14,11 +14,13 @@
             android:id="@+id/action_navigation_home_to_cardDetailFragment"
             app:destination="@id/cardDetailFragment"
             app:enterAnim="@anim/fragment_close_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_card_backs"
         android:name="com.petrpol.hearthstonecards.ui.cardBacks.CardBacksFragment"
         android:label="@string/title_card_backs"
         tools:layout="@layout/fragment_card_backs" />
