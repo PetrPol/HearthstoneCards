@@ -20,8 +20,7 @@
         android:layout_marginRight="12dp"
         android:background="@drawable/list_item_card_background"
         android:elevation="10dp"
-        android:onClick="@{() -> listener.onClick(item.cardId,listItemCardImage)}"
-        android:padding="5dp">
+        android:onClick="@{() -> listener.onClick(item.cardId,listItemCardImage)}">
 
         <TextView
             android:id="@+id/list_item_card_name"
@@ -29,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@{item.name}"
             app:layout_constraintStart_toEndOf="@+id/list_item_card_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +37,14 @@
             android:id="@+id/list_item_card_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
             android:transitionName="list_item_card_image"
-            app:imageUrl="@{item.img}"
             app:imageFullSize="@{true}"
+            app:imageUrl="@{item.img}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,12 +55,38 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:singleLine="true"
             android:text="@{item.flavor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/list_item_card_image"
             app:layout_constraintTop_toBottomOf="@+id/list_item_card_name" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/filter_image_background"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_health" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            android:text="8"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

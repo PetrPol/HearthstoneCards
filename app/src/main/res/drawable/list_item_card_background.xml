@@ -2,7 +2,7 @@
 <!--Rounded background for larger views-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <solid android:color="@color/colorBackground"/>
+    <solid android:color="@color/colorItemBackground"/>
 
     <corners android:radius="10dp"/>
 </shape>
