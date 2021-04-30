@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:id="@+id/card_detail_show_golden"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_card_backs" />
+        android:icon="@drawable/ic_cardback"
+        android:title="@string/title_card_backs"
+        app:showAsAction="always" />
 
 </menu>

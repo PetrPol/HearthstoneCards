@@ -34,7 +34,8 @@
                     android:layout_marginStart="16dp"
                     android:scaleType="fitCenter"
                     android:transitionName="card_detail_image"
-                    app:imageUrl="@{cardDetailViewModel.card.img}"
+                    app:showGolden="@{cardDetailViewModel.showGolden}"
+                    app:card="@{cardDetailViewModel.card}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

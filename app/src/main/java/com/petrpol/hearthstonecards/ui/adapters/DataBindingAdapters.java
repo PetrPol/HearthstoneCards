@@ -15,6 +15,8 @@ import androidx.lifecycle.LiveData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.enums.FilterType;
+import com.petrpol.hearthstonecards.data.model.Card;
+import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
 import com.squareup.picasso.Picasso;
@@ -30,12 +32,40 @@ public class DataBindingAdapters {
         }
     }
 
-    @BindingAdapter("imageUrl")
-    public static void loadImage(ImageView view, String imageUrl){
+    @BindingAdapter({"imageUrl","imageFullSize"})
+    public static void loadImage(ImageView view, String imageUrl, boolean imageFullSize){
+
+        if (imageFullSize)
         Picasso.get()
                 .load(imageUrl)
+                .placeholder(R.drawable.card_placeholder)
+                .into(view);
+        else
+        Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.card_back_placeholder)
+                .resize(125,173)
                 .into(view);
     }
+
+    @BindingAdapter({"card","showGolden"})
+    public static void loadImageDetail(ImageView view, Card card, boolean showGolden){
+
+        if (card!=null) {
+            String imageUrl;
+            if (showGolden)
+                imageUrl = card.getImgGold();
+            else
+                imageUrl = card.getImg();
+
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.card_back_placeholder)
+                    .into(view);
+        }
+    }
+
+
 
     @BindingAdapter("snackBar")
     public static void showSnackBar(CoordinatorLayout view, String message){
@@ -74,6 +104,14 @@ public class DataBindingAdapters {
     public static void setText(TextView view, List<Filter> filters){
         if (filters != null && filters.size() > 0)
             view.setText(filters.get(0).getPatch());
+        else
+            view.setText("");
+    }
+
+    @BindingAdapter("android:text")
+    public static void setCardBackText(TextView view, List<CardBack> cardBacks){
+        if (cardBacks != null && cardBacks.size() > 0)
+            view.setText(view.getContext().getString(R.string.card_back_title,cardBacks.size()));
         else
             view.setText("");
     }

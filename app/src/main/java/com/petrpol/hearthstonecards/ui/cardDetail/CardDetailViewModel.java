@@ -15,16 +15,23 @@ import com.petrpol.hearthstonecards.room.CardsDatabase;
 public class CardDetailViewModel extends ViewModel implements SingleCardRepositoryInterface {
 
     private LiveData<Card> mCard;
+    private MutableLiveData<Boolean> showGolden= new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
 
     private SingleCardRepository mSingleCardRepository;
 
     public CardDetailViewModel(Context context) {
         mSingleCardRepository = SingleCardRepository.getInstance(CardsDatabase.getInstance(context));
+        showGolden.setValue(false);
     }
 
     public void loadCard(String cardId) {
         mCard = mSingleCardRepository.getCard(cardId, this);
+    }
+
+    public void changeGolden() {
+        if (showGolden.getValue()!=null)
+            this.showGolden.postValue(!showGolden.getValue());
     }
 
     //Repository interface methods
@@ -43,5 +50,9 @@ public class CardDetailViewModel extends ViewModel implements SingleCardReposito
 
     public LiveData<String> getErrorMessage() {
         return mErrorMessage;
+    }
+
+    public LiveData<Boolean> getShowGolden() {
+        return showGolden;
     }
 }

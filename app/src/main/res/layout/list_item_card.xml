@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -11,11 +12,12 @@
             type="com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="12dp"
         android:background="@drawable/list_item_card_background"
         android:elevation="10dp"
         android:onClick="@{() -> listener.onClick(item.cardId,listItemCardImage)}"
@@ -35,10 +37,11 @@
             android:id="@+id/list_item_card_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:transitionName="list_item_card_image"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
+            android:transitionName="list_item_card_image"
             app:imageUrl="@{item.img}"
+            app:imageFullSize="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

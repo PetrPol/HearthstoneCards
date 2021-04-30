@@ -84,7 +84,6 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         dataViewType.postValue(filterType.getValue());
     }
 
-
     //Repository interface
     @Override
     public void onCardDataGetSuccess() {

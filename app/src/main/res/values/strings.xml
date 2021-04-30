@@ -14,5 +14,9 @@
     //Card Detail Fragment
     <string name="card_detail_flavor_title">Lore:</string>
     <string name="card_detail_flavor_title_empty">This card has no lore information</string>
+    <string name="show_gold_title">Show golden</string>
+
+    //Card back fragment
+    <string name="card_back_title">%d cards backs found</string>
 
 </resources>

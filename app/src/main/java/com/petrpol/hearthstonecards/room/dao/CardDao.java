@@ -16,16 +16,16 @@ public interface CardDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCard(Card card);
 
-    @Query("SELECT * FROM cards_table ORDER BY cost ASC")
+    @Query("SELECT * FROM cards_table")
     LiveData<List<Card>> getAllCards();
 
-    @Query("SELECT * FROM cards_table where type = :typeValue ORDER BY cost ASC")
+    @Query("SELECT * FROM cards_table where type = :typeValue")
     LiveData<List<Card>> getCardsByType(String typeValue);
 
-    @Query("SELECT * FROM cards_table where cardSet = :setValue ORDER BY cost ASC")
+    @Query("SELECT * FROM cards_table where cardSet = :setValue")
     LiveData<List<Card>> getCardsBySet(String setValue);
 
-    @Query("SELECT * FROM cards_table where playerClass = :classValue ORDER BY cost ASC")
+    @Query("SELECT * FROM cards_table where playerClass = :classValue")
     LiveData<List<Card>> getCardsByClass(String classValue);
 
     @Query("SELECT * FROM cards_table where cardId = :cardId")

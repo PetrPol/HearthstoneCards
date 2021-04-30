@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.motion.widget.MotionLayout;
@@ -21,12 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.enums.FilterType;
+import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.databinding.FragmentHomeBinding;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardsAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemCallback;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
+
+import java.util.List;
 
 /** Default Home fragment
  *  Contains list of cards an allows to filter cards by type,class or set*/

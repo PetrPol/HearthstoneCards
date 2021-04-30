@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorPrimary">#313131</color>
+    <color name="colorPrimaryDark">#313131</color>
+    <color name="colorPrimaryLight">#2b2b2b</color>
+    <color name="colorSecondary">#7b6eb2</color>
+    <color name="colorSecondaryLight">#adb3cb</color>
+    <color name="colorBackground">#f6f6f6</color>
 
     <color name="colorText">#DE000000</color>
     <color name="colorTextDescription">#99000000</color>
+
+
+    // BLACK
+    <color name="light_black">#2b2b2b</color>
+    <color name="text_black">#313131</color>
+    <color name="colorPrimary80">#cc111111</color>
+    <color name="overlay">#6B000000</color>
+    // GRAY
+    <color name="edit_profile_shadow">#992B2B2B</color>
+    <color name="background_gray">#f6f6f6</color>
+    <color name="gray_background">#f6f6f6</color>
+    <color name="switch_gray">#ced1e0</color>
+    <color name="gray">#c1c6d8</color>
+    <color name="gray_pure">#a8a8a8</color>
+    <color name="shadow">#e5e5e5</color>
+    <color name="icon_gray">#EFEFEF</color>
+    // WHITE
+    <color name="bottom_button">#eaeaeb</color>
+    <color name="skill_background">#efefef</color>
+    <color name="white">#ffffff</color>
+    <color name="white_transparent">#50ffffff</color>
+    // PURPLE
+    <color name="purple">#7b6eb2</color>
+    <color name="purple_20">#337B6EB2</color>
+    <color name="purple_chat">#dde1f0</color>
+    <color name="purple_gray">#adb3cb</color>
+    <color name="purple_gray_opacity_60">#99ADB3CB</color>
+    <color name="light_purple">#adb3cb</color>
+    // GREEN
+    <color name="light_green">#72ef94</color>
+    <color name="text_green">#52df79</color>
+    <color name="dark_green">#44d86d</color>
+    // RED
+    <color name="colorProgress">#ffffbb33</color>
+    <color name="colorRed_gradient_light">#ed213a</color>
+    <color name="colorRed_gradient_dark">#ce2330</color>
+    <color name="colorRed">#F44336</color>
+    <color name="red">#cf000f</color>
 </resources>
