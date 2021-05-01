@@ -10,20 +10,23 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_detail_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <ScrollView
+            android:id="@+id/card_detail_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/card_detail_snackbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/card_detail_snackbar"
             tools:context=".ui.cardBacks.CardBacksFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_detail_scroll_view_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -32,13 +35,14 @@
                     android:layout_width="0dp"
                     android:layout_height="400dp"
                     android:layout_marginStart="16dp"
+                    android:contentDescription="@string/card_detail_image_content_description"
                     android:scaleType="fitCenter"
                     android:transitionName="card_detail_image"
-                    app:showGolden="@{cardDetailViewModel.showGolden}"
                     app:card="@{cardDetailViewModel.card}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:showGolden="@{cardDetailViewModel.showGolden}" />
 
                 <TextView
                     android:id="@+id/card_detail_artist"

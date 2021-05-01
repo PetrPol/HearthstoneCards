@@ -1,4 +1,6 @@
 <resources>
+
+    //Application strings
     <string name="app_name">Hearthstone Cards</string>
     <string name="title_home">Hearthstone Cards</string>
     <string name="title_card_backs">Card backs</string>
@@ -25,6 +27,7 @@
     <string name="card_detail_flavor_title">Lore:</string>
     <string name="card_detail_flavor_title_empty">This card has no lore information</string>
     <string name="show_gold_title">Show golden</string>
+    <string name="card_detail_image_content_description">Full resolution image of selected card</string>
 
     //Card back fragment
     <string name="card_back_title">Cards backs found: %d</string>

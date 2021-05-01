@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Rounded background for larger views-->
+
+<!--Rounded background for filter value items -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <solid android:color="@color/colorSecondary"/>

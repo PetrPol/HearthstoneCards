@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_item_card_back_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,8 +17,8 @@
             android:layout_width="0dp"
             android:layout_height="190dp"
             android:scaleType="fitCenter"
-            app:imageUrl="@{item.img}"
             app:imageFullSize="@{false}"
+            app:imageUrl="@{item.img}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

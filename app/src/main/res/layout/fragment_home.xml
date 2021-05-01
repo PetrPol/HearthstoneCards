@@ -11,7 +11,7 @@
 
 
     <androidx.constraintlayout.motion.widget.MotionLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/home_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
@@ -21,7 +21,7 @@
         tools:context=".ui.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/home_view_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/home_snackbar"
@@ -215,7 +215,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/home_filter_patch_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_filter_title">
+                app:layout_constraintTop_toBottomOf="@+id/home_filter_title"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:id="@+id/home_filter_button_type"

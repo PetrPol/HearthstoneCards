@@ -21,9 +21,9 @@ public class MainActivity extends ABaseActivity {
         setContentView(R.layout.activity_main);
 
         //Create bottom navigation
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        BottomNavigationView navView = findViewById(R.id.main_nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_card_backs).build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(this, R.id.main_nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
