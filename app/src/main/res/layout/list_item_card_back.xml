@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cfc1062dbfe5a4d336427f8b167286489efbe8d7f6df7fdc53ab6cce71e569de" />
+            app:srcCompat="@drawable/card_back_placeholder" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

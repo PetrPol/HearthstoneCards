@@ -79,7 +79,7 @@
             android:visibility="@{item.health!=null}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_health_2"
+            app:srcCompat="@drawable/ic_health"
             app:tint="@color/colorBackground" />
 
         <ImageView
@@ -92,7 +92,7 @@
             android:visibility="@{item.attack!=null}"
             app:layout_constraintEnd_toStartOf="@+id/list_item_card_health_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_attack_2"
+            app:srcCompat="@drawable/ic_attack"
             app:tint="@color/colorBackground" />
 
         <ImageView
@@ -105,7 +105,7 @@
             android:visibility="@{item.cost!=null}"
             app:layout_constraintEnd_toStartOf="@id/list_item_card_attack_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_cost_2"
+            app:srcCompat="@drawable/ic_cost"
             app:tint="@color/colorBackground" />
 
         <TextView
