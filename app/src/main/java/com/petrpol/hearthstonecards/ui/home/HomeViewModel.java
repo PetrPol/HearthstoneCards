@@ -30,6 +30,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<FilterType> filterType = new MutableLiveData<>();
     private MutableLiveData<FilterType> dataViewType = new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isConnectionProblems = new MutableLiveData<>();
     private MutableLiveData<String> filterValue = new MutableLiveData<>();
     private MutableLiveData<Boolean> noDataFound = new MutableLiveData<>();
 
@@ -52,6 +53,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         mErrorMessage.setValue(null);
         filterValue.setValue(null);
         noDataFound.setValue(false);
+        isConnectionProblems.setValue(false);
 
         //Create repositories
         mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
@@ -93,12 +95,24 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     public void getFilteredCards(String filterText){
         isDataLoading.postValue(true);
         noDataFound.postValue(false);
+        isConnectionProblems.postValue(false);
 
         if (filterType.getValue()!= null)
             mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
 
         filterValue.postValue(filterText);
         dataViewType.postValue(filterType.getValue());
+    }
+
+    /** Updates data for actual dataViewType and FilterValue  */
+    public void updateCardData(){
+        isConnectionProblems.postValue(false);
+
+        if (dataViewType.getValue()== null || filterValue.getValue()== null || dataViewType.getValue()==FilterType.NONE)
+            mCardsRepository.getCards( this);
+        else
+            mCardsRepository.getFilteredCards(dataViewType.getValue(),filterValue.getValue(),this);
+
     }
 
     //Repositories interface
@@ -110,6 +124,10 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     @Override
     public void onCardDataGetFail(String message) {
         isDataLoading.postValue(false);
+
+        if (mCards.getValue()==null || mCards.getValue().size()==0)
+            isConnectionProblems.postValue(true);
+
         mErrorMessage.postValue(message);
     }
 
@@ -170,5 +188,9 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     public LiveData<Boolean> getNoDataFound() {
         return noDataFound;
+    }
+
+    public LiveData<Boolean> getIsConnectionProblems() {
+        return isConnectionProblems;
     }
 }

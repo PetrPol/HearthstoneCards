@@ -20,25 +20,38 @@ public class CardBacksViewModel extends ViewModel implements CardBacksRepository
 
     private MutableLiveData<Boolean> isDataLoading= new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
+    private MutableLiveData<Boolean> isConnectionProblems= new MutableLiveData<>();
+
+    private CardBackRepository mCardBacksRepository;
 
     /** Default constructor
      *  Creates database for repository and gets card back list data */
     public CardBacksViewModel(Context context) {
         //Default values
         isDataLoading.setValue(true);
+        isConnectionProblems.setValue(false);
 
         //Create repository and get data
-        CardBackRepository mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
+        mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
         mCardBacks = mCardBacksRepository.getCardBacks(this);
+    }
+
+    public void refreshData(){
+        isConnectionProblems.postValue(false);
+        mCardBacksRepository.getCardBacks(this);
     }
 
     //Repository interface methods
     @Override
     public void onCardBackDataGetSuccess() {
-        isDataLoading.postValue(false);}
+        isDataLoading.postValue(false);
+    }
 
     @Override
     public void onCardBackDataGetFail(String message) {
+        isDataLoading.postValue(false);
+        if (mCardBacks.getValue()==null || mCardBacks.getValue().size()==0)
+            isConnectionProblems.postValue(true);
         mErrorMessage.postValue(message);
     }
 
@@ -53,5 +66,9 @@ public class CardBacksViewModel extends ViewModel implements CardBacksRepository
 
     public LiveData<Boolean> getIsDataLoading() {
         return isDataLoading;
+    }
+
+    public LiveData<Boolean> getIsConnectionProblems() {
+        return isConnectionProblems;
     }
 }

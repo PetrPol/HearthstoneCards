@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.petrpol.hearthstonecards.R;
@@ -14,6 +15,8 @@ import com.petrpol.hearthstonecards.data.enums.FilterType;
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.model.Filter;
+import com.petrpol.hearthstonecards.ui.cardBacks.CardBacksViewModel;
+import com.petrpol.hearthstonecards.ui.home.HomeViewModel;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
 import com.petrpol.hearthstonecards.utils.StringFormatter;
 import com.squareup.picasso.Picasso;
@@ -116,13 +119,26 @@ public class DataBindingAdapters {
             view.setText("");
     }
 
-    /** Set text to no card found splash screen
-     *  @param viewType - Filter type used when no cards found */
-    @BindingAdapter("noCardsText")
-    public static void setNoCardsText(TextView view, FilterType viewType){
-        view.setText(view.getContext().getString(R.string.no_cards_description,viewType.toString()));
+    /** Set text to no card found splash screen description
+     *  @param viewType - Filter type used when no cards found
+     *  @param connectionProblems - if true show connection problems text */
+    @BindingAdapter({"noCardsText","connectionProblems"})
+    public static void setNoCardsText(TextView view, FilterType viewType, boolean connectionProblems){
+        if (connectionProblems)
+            view.setText(view.getContext().getString(R.string.connection_problems_description));
+        else
+            view.setText(view.getContext().getString(R.string.no_cards_description,viewType.toString()));
     }
 
+    /** Set text to no card found splash screen title
+     *  @param connectionProblems - if true show connection problems text */
+    @BindingAdapter("connectionProblems")
+    public static void setNoCardsText(TextView view, boolean connectionProblems){
+        if (connectionProblems)
+            view.setText(view.getContext().getString(R.string.connection_problems_title));
+        else
+            view.setText(view.getContext().getString(R.string.no_cards_title));
+    }
 
     /** Sets motion state based on given filter type and filter showed value */
     @BindingAdapter({"filterType","filterShowed"})
@@ -154,6 +170,18 @@ public class DataBindingAdapters {
             view.setImageResource(R.drawable.ic_baseline_filter_list_24);
         else
             view.setImageDrawable(null);
+    }
+
+    /** Creates on refresh data listener for card back view model */
+    @BindingAdapter({"refreshListener"})
+    public static void setOnRefreshListener(SwipeRefreshLayout view, CardBacksViewModel cardBacksViewModel) {
+        view.setOnRefreshListener(cardBacksViewModel::refreshData);
+    }
+
+    /** Creates on refresh data listener for home view model */
+    @BindingAdapter({"refreshListener"})
+    public static void setOnRefreshListener(SwipeRefreshLayout view, HomeViewModel homeViewModel) {
+        view.setOnRefreshListener(homeViewModel::updateCardData);
     }
 
 }

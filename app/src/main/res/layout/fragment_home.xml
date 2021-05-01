@@ -9,317 +9,318 @@
             type="com.petrpol.hearthstonecards.ui.home.HomeViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.motion.widget.MotionLayout
-        android:id="@+id/home_root"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/home_swipe_refresh"
+        app:refreshListener="@{homeModelView}"
+        app:refreshing="@{homeModelView.isDataLoading}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        app:layoutDescription="@xml/fragment_home_xml_constraintlayout_scene"
-        app:filterType="@{homeModelView.filterType}"
-        app:filterShowed="@{homeModelView.filterViewShowed}"
-        tools:context=".ui.home.HomeFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/home_view_content"
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/home_root"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/home_snackbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            app:filterShowed="@{homeModelView.filterViewShowed}"
+            app:filterType="@{homeModelView.filterType}"
+            app:layoutDescription="@xml/fragment_home_xml_constraintlayout_scene"
+            tools:context=".ui.home.HomeFragment">
 
-            <ImageView
-                android:id="@+id/home_list_no_cards_image"
-                android:layout_width="0dp"
-                android:layout_height="220dp"
-                android:layout_marginTop="32dp"
-                android:visibility="@{homeModelView.noDataFound}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/home_recycler_view"
-                app:srcCompat="@drawable/no_cards_screen"
-                app:tint="@color/colorPrimary" />
-
-            <TextView
-                android:id="@+id/home_list_no_cards_title"
-                style="@style/ItemHeadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_cards_title"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="@{homeModelView.noDataFound}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_image" />
-
-            <TextView
-                android:id="@+id/home_list_no_cards_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
-                app:noCardsText="@{homeModelView.dataViewType}"
-                android:visibility="@{homeModelView.noDataFound}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_title" />
-
-            <TextView
-                android:id="@+id/home_list_title"
-                style="@style/ItemHeadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:filterType="@{homeModelView.dataViewType}"
-                app:filterValue="@{homeModelView.filterValue}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_recycler_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_view_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/home_snackbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_list_title"
-                app:layout_constraintVertical_bias="1.0">
+                app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <ImageView
+                    android:id="@+id/home_list_no_cards_image"
+                    android:layout_width="0dp"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="32dp"
+                    android:visibility="@{homeModelView.noDataFound || homeModelView.isConnectionProblems}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/home_recycler_view"
+                    app:srcCompat="@drawable/no_cards_screen"
+                    app:tint="@color/colorPrimary" />
 
-            <ProgressBar
-                android:id="@+id/home_card_recycler_loading"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/home_list_no_cards_title"
+                    style="@style/ItemHeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_cards_title"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:connectionProblems="@{homeModelView.isConnectionProblems}"
+                    android:visibility="@{homeModelView.noDataFound || homeModelView.isConnectionProblems}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_image" />
+
+                <TextView
+                    android:id="@+id/home_list_no_cards_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center"
+                    app:connectionProblems="@{homeModelView.isConnectionProblems}"
+                    android:visibility="@{homeModelView.noDataFound || homeModelView.isConnectionProblems}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_list_no_cards_title"
+                    app:noCardsText="@{homeModelView.dataViewType}" />
+
+                <TextView
+                    android:id="@+id/home_list_title"
+                    style="@style/ItemHeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:filterType="@{homeModelView.dataViewType}"
+                    app:filterValue="@{homeModelView.filterValue}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_list_title"
+                    app:layout_constraintVertical_bias="1.0">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/home_filter_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:clickable="@{!homeModelView.isFilterLoading}"
+                    android:focusable="@{!homeModelView.isFilterLoading}"
+                    android:onClick="@{() -> homeModelView.showFilter()}"
+                    android:tint="@color/colorBackground"
+                    android:visibility="@{!homeModelView.filterViewShowed}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:showFilterIcon="@{!homeModelView.isFilterLoading}" />
+
+                <ProgressBar
+                    android:id="@+id/home_filter_fab_loading"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="20dp"
+                    android:indeterminateTint="@color/colorBackground"
+                    android:visibility="@{homeModelView.isFilterLoading}"
+                    app:layout_constraintBottom_toBottomOf="@+id/home_filter_fab"
+                    app:layout_constraintEnd_toEndOf="@+id/home_filter_fab"
+                    app:layout_constraintHeight_max="24dp"
+                    app:layout_constraintStart_toStartOf="@+id/home_filter_fab"
+                    app:layout_constraintTop_toTopOf="@+id/home_filter_fab"
+                    app:layout_constraintWidth_max="24dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_filter_constraint"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:visibility="@{homeModelView.isDataLoading}"
-                app:layout_constraintBottom_toBottomOf="@+id/home_list_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/home_list_title" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/home_filter_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
-                android:clickable="@{!homeModelView.isFilterLoading}"
-                android:focusable="@{!homeModelView.isFilterLoading}"
-                android:onClick="@{() -> homeModelView.showFilter()}"
-                android:tint="@color/colorBackground"
-                android:visibility="@{!homeModelView.filterViewShowed}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:showFilterIcon="@{!homeModelView.isFilterLoading}" />
-
-            <ProgressBar
-                android:id="@+id/home_filter_fab_loading"
-                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:background="@drawable/filter_view_background"
                 android:elevation="20dp"
-                android:indeterminateTint="@color/colorBackground"
-                android:visibility="@{homeModelView.isFilterLoading}"
-                app:layout_constraintBottom_toBottomOf="@+id/home_filter_fab"
-                app:layout_constraintEnd_toEndOf="@+id/home_filter_fab"
-                app:layout_constraintStart_toStartOf="@+id/home_filter_fab"
-                app:layout_constraintTop_toTopOf="@+id/home_filter_fab" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/home_filter_constraint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/filter_view_background"
-            android:elevation="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/home_snackbar"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/home_filter_title"
-                style="@style/ItemHeadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/filter_title"
+                app:layout_constraintBottom_toTopOf="@id/home_snackbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/home_filter_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:onClick="@{() -> homeModelView.hideFilter()}"
-                android:src="@drawable/ic_baseline_close_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/home_filter_back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:onClick="@{() -> homeModelView.setFilterType(FilterType.NONE)}"
-                android:src="@drawable/abc_vector_test"
-                android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorTextDescription" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_filter_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
-                app:layout_constraintBottom_toTopOf="@+id/home_filter_patch_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_filter_title" />
-
-            <LinearLayout
-                android:id="@+id/home_filter_buttons_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="@{homeModelView.filterType==FilterType.NONE}"
-                app:layout_constraintBottom_toTopOf="@+id/home_filter_patch_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_filter_title"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:id="@+id/home_filter_button_type"
+                <TextView
+                    android:id="@+id/home_filter_title"
+                    style="@style/ItemHeadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="@{() -> homeModelView.setFilterType(FilterType.TYPE)}"
-                    android:orientation="vertical">
+                    android:layout_marginTop="16dp"
+                    android:text="@string/filter_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/home_filter_image_type"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/filter_image_background"
-                        android:src="@drawable/ic_type"
-                        app:tint="@color/colorBackground" />
+                <ImageView
+                    android:id="@+id/home_filter_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:onClick="@{() -> homeModelView.hideFilter()}"
+                    android:src="@drawable/ic_baseline_close_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/home_filter_text_type"
-                        style="@style/ItemBody"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/filter_type" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/home_filter_back"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> homeModelView.setFilterType(FilterType.NONE)}"
+                    android:src="@drawable/abc_vector_test"
+                    android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorTextDescription" />
 
-                <LinearLayout
-                    android:id="@+id/home_filter_button_set"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="@{() -> homeModelView.setFilterType(FilterType.SET)}"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/home_filter_image_set"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/filter_image_background"
-                        android:src="@drawable/ic_set"
-                        app:tint="@color/colorBackground" />
-
-                    <TextView
-                        android:id="@+id/home_filter_text_set"
-                        style="@style/ItemBody"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/filter_set" />
-                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_filter_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:visibility="@{homeModelView.filterType!=FilterType.NONE}"
+                    app:layout_constraintBottom_toTopOf="@+id/home_filter_patch_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_filter_title" />
 
                 <LinearLayout
-                    android:id="@+id/home_filter_button_class"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/home_filter_buttons_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="@{() -> homeModelView.setFilterType(FilterType.CLASS)}"
-                    android:orientation="vertical">
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="8dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:visibility="@{homeModelView.filterType==FilterType.NONE}"
+                    app:layout_constraintBottom_toTopOf="@+id/home_filter_patch_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_filter_title">
 
-                    <ImageView
-                        android:id="@+id/home_filter_image_class"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/filter_image_background"
-                        android:src="@drawable/ic_class"
-                        app:tint="@color/colorBackground" />
-
-                    <TextView
-                        android:id="@+id/home_filter_text_class"
-                        style="@style/ItemBody"
+                    <LinearLayout
+                        android:id="@+id/home_filter_button_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/filter_class" />
+                        android:layout_weight="1"
+                        android:onClick="@{() -> homeModelView.setFilterType(FilterType.TYPE)}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/home_filter_image_type"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/filter_image_background"
+                            android:src="@drawable/ic_type"
+                            app:tint="@color/colorBackground" />
+
+                        <TextView
+                            android:id="@+id/home_filter_text_type"
+                            style="@style/ItemBody"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/filter_type" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_filter_button_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{() -> homeModelView.setFilterType(FilterType.SET)}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/home_filter_image_set"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/filter_image_background"
+                            android:src="@drawable/ic_set"
+                            app:tint="@color/colorBackground" />
+
+                        <TextView
+                            android:id="@+id/home_filter_text_set"
+                            style="@style/ItemBody"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/filter_set" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_filter_button_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="@{() -> homeModelView.setFilterType(FilterType.CLASS)}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/home_filter_image_class"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/filter_image_background"
+                            android:src="@drawable/ic_class"
+                            app:tint="@color/colorBackground" />
+
+                        <TextView
+                            android:id="@+id/home_filter_text_class"
+                            style="@style/ItemBody"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/filter_class" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/home_filter_patch_text"
+                    style="@style/ItemBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{homeModelView.filterData}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/home_filter_patch_text"
-                style="@style/ItemBody"
-                android:layout_width="wrap_content"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/home_snackbar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@{homeModelView.filterData}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:snackBar="@{homeModelView.errorMessage}" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/home_snackbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:snackBar="@{homeModelView.errorMessage}" />
-
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

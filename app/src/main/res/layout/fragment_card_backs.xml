@@ -8,61 +8,96 @@
             type="com.petrpol.hearthstonecards.ui.cardBacks.CardBacksViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/card_backs_root"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/card_back_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.cardBacks.CardBacksFragment">
+        app:refreshListener="@{cardBackModelView}"
+        app:refreshing="@{cardBackModelView.isDataLoading}"
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/card_backs_loading"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:visibility="@{cardBackModelView.isDataLoading}"
-            app:layout_constraintBottom_toBottomOf="@+id/card_backs_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/card_backs_title" />
-
-        <TextView
-            android:id="@+id/card_backs_title"
-            style="@style/ItemHeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="@{cardBackModelView.cardBacks}"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/card_back_recycler_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_backs_root"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="12dp"
-            app:layout_constraintBottom_toTopOf="@+id/card_backs_snackbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_backs_title" />
+            android:layout_height="match_parent"
+            tools:context=".ui.cardBacks.CardBacksFragment">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/card_backs_snackbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:snackBar="@{cardBackModelView.errorMessage}" />
+            <ImageView
+                android:id="@+id/cad_backs_no_cards_image"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="32dp"
+                android:visibility="@{cardBackModelView.isConnectionProblems}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/card_back_recycler_view"
+                app:srcCompat="@drawable/no_cards_screen"
+                app:tint="@color/colorPrimary" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/card_back_no_cards_title"
+                style="@style/ItemHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connection_problems_title"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="@{cardBackModelView.isConnectionProblems}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cad_backs_no_cards_image" />
+
+            <TextView
+                android:id="@+id/card_back_no_cards_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:gravity="center"
+                android:text="@string/connection_problems_description"
+                android:visibility="@{cardBackModelView.isConnectionProblems}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_back_no_cards_title" />
+
+            <TextView
+                android:id="@+id/card_backs_title"
+                style="@style/ItemHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@{cardBackModelView.cardBacks}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/card_back_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                app:layout_constraintBottom_toTopOf="@+id/card_backs_snackbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_backs_title" />
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/card_backs_snackbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:snackBar="@{cardBackModelView.errorMessage}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>
