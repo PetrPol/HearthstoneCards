@@ -42,6 +42,11 @@ public class FilterRepository {
         return instance;
     }
 
+    /** Updates filter by call from server */
+    public void updateFilter(FilterRepositoryInterface callback){
+        getFilter(callback);
+    }
+
     /** Gets filter object from DB
      *  Calls get filter from server
      *  Calls callback when success or fail */

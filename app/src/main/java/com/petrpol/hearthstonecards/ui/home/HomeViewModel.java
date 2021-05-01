@@ -33,7 +33,10 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<String> filterValue = new MutableLiveData<>();
     private MutableLiveData<Boolean> noDataFound = new MutableLiveData<>();
 
+    private boolean showFilterAfterSuccess = false;
+
     private CardsRepository mCardsRepository;
+    private FilterRepository mFilterRepository;
 
     /** Default constructor
      *  Sets default values
@@ -52,7 +55,7 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
         //Create repositories
         mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
-        FilterRepository mFilterRepository = FilterRepository.getInstance(FilterDatabase.getInstance(context));
+        mFilterRepository = FilterRepository.getInstance(FilterDatabase.getInstance(context));
 
         //Get cards and filter
         mCards = mCardsRepository.getCards( this);
@@ -66,7 +69,13 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     /** Updates filterViewShowed to true */
     public void showFilter(){
-        filterViewShowed.postValue(true);
+        if (mFilterInfo.getValue()==null || mFilterInfo.getValue().size()==0){
+            isFilterLoading.setValue(true);
+            mFilterRepository.updateFilter(this);
+            showFilterAfterSuccess = true;
+        }
+        else
+            filterViewShowed.postValue(true);
     }
 
     /** Updates filterViewShowed to false */
@@ -113,6 +122,12 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     @Override
     public void onFilterDataGetSuccess() {
         isFilterLoading.postValue(false);
+
+        //Show filter if was opened before call
+        if (showFilterAfterSuccess){
+            filterViewShowed.postValue(true);
+            showFilterAfterSuccess = false;
+        }
     }
 
     @Override
