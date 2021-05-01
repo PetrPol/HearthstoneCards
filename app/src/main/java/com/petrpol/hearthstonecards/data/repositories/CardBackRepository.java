@@ -14,7 +14,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
+/** Data repository for Card backs
+ *  Gets data from database and updates them from server
+ *  Singleton pattern */
 public class CardBackRepository {
 
     public static CardBackRepository instance;
@@ -22,9 +26,11 @@ public class CardBackRepository {
     private RetrofitController retrofitController;
     private CardBackDao cardBackDao;
 
-    public CardBackRepository(CardBacksDatabase cardsDatabase) {
+    /** Default constructor
+     *  @param cardBacksDatabase - requires database to access data */
+    public CardBackRepository(CardBacksDatabase cardBacksDatabase) {
         retrofitController = RetrofitController.getInstance();
-        cardBackDao = cardsDatabase.getCardBacksDao();
+        cardBackDao = cardBacksDatabase.getCardBacksDao();
     }
 
     /** Returns instance (create if null) */
@@ -43,14 +49,17 @@ public class CardBackRepository {
 
         retrofitController.getAllCardBacks(new Callback<List<CardBack>>() {
             @Override
-            public void onResponse(Call<List<CardBack>> call, Response<List<CardBack>> response) {
+            @EverythingIsNonNull
+            public void onResponse( Call<List<CardBack>> call, Response<List<CardBack>> response) {
 
+                //If server has no card backs
                 if (!response.isSuccessful()) {
                     Log.e("RetroError",response.message());
                     callback.onCardBackDataGetFail(response.message());
                     return;
                 }
 
+                //Store card backs to database
                 if (response.body()!=null && response.body().size()>0) {
                     new Thread(() -> {
                         for (CardBack c:response.body())
@@ -64,7 +73,9 @@ public class CardBackRepository {
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFailure(Call<List<CardBack>> call, Throwable t) {
+                //Print error and call callback with error message
                 if (t.getMessage()!=null) {
                     Log.e("RetroFailure", t.getMessage());
                     callback.onCardBackDataGetFail(t.getMessage());

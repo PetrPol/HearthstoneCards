@@ -7,6 +7,7 @@ public enum FilterType {
     CLASS,
     NONE;
 
+    /** Returns string representation of Filter type */
     public String toString(){
         switch (this){
             case TYPE:

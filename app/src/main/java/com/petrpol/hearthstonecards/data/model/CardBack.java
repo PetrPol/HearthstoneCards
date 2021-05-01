@@ -10,43 +10,12 @@ public class CardBack {
 
     @PrimaryKey
     @NonNull
-    private String cardBackId;
-
-    private String name;
-    private String description;
+    private String cardBackId = "";
     private String img;
-    private String howToGet;
 
-    public CardBack(String cardBackId, String name, String description, String img, String howToGet) {
-        this.cardBackId = cardBackId;
-        this.name = name;
-        this.description = description;
-        this.img = img;
-        this.howToGet = howToGet;
-    }
 
-    public String getCardBackId() {
+    public @NonNull String getCardBackId() {
         return cardBackId;
-    }
-
-    public void setCardBackId(String cardBackId) {
-        this.cardBackId = cardBackId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getImg() {
@@ -57,11 +26,8 @@ public class CardBack {
         this.img = img;
     }
 
-    public String getHowToGet() {
-        return howToGet;
-    }
-
-    public void setHowToGet(String howToGet) {
-        this.howToGet = howToGet;
+    @SuppressWarnings({"unused"}) //Set by Retrofit - used by Room
+    public void setCardBackId(@NonNull String cardBackId) {
+        this.cardBackId = cardBackId;
     }
 }

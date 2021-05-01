@@ -1,7 +1,6 @@
 package com.petrpol.hearthstonecards.ui.home;
 
 import android.content.Context;
-import android.view.View;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,10 +15,10 @@ import com.petrpol.hearthstonecards.data.repositories.FilterRepository;
 import com.petrpol.hearthstonecards.data.repositories.FilterRepositoryInterface;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.FilterDatabase;
-import com.petrpol.hearthstonecards.room.dao.CardDao;
 
 import java.util.List;
 
+/** View model for Home fragment */
 public class HomeViewModel extends ViewModel implements CardsRepositoryInterface, FilterRepositoryInterface {
 
     private LiveData<List<Card>> mCards;
@@ -36,6 +35,9 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
 
     private CardsRepository mCardsRepository;
 
+    /** Default constructor
+     *  Sets default values
+     *  Creates data repositories and gets default data */
     public HomeViewModel(Context context) {
 
         //Default values
@@ -57,18 +59,18 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         mFilterInfo = mFilterRepository.getFilter(this);
     }
 
-    /** Cleans data to inflate to new view */
+    /** Cleans data before inflate to new view */
     public void clean(){
         mErrorMessage.setValue(null);
     }
 
     /** Updates filterViewShowed to true */
-    public void showFilter(View view){
+    public void showFilter(){
         filterViewShowed.postValue(true);
     }
 
     /** Updates filterViewShowed to false */
-    public void hideFilter(View view){
+    public void hideFilter(){
         filterViewShowed.postValue(false);
         filterType.postValue(FilterType.NONE);
     }
@@ -82,12 +84,15 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     public void getFilteredCards(String filterText){
         isDataLoading.postValue(true);
         noDataFound.postValue(false);
-        mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
+
+        if (filterType.getValue()!= null)
+            mCards = mCardsRepository.getFilteredCards(filterType.getValue(), filterText,this);
+
         filterValue.postValue(filterText);
         dataViewType.postValue(filterType.getValue());
     }
 
-    //Repository interface
+    //Repositories interface
     @Override
     public void onCardDataGetSuccess() {
         isDataLoading.postValue(false);

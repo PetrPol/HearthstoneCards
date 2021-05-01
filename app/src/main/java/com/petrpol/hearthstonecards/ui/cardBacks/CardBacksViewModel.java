@@ -6,30 +6,29 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.repositories.CardBackRepository;
 import com.petrpol.hearthstonecards.data.repositories.CardBacksRepositoryInterface;
-import com.petrpol.hearthstonecards.data.repositories.CardsRepositoryInterface;
-import com.petrpol.hearthstonecards.data.repositories.SingleCardRepository;
 import com.petrpol.hearthstonecards.room.CardBacksDatabase;
-import com.petrpol.hearthstonecards.room.CardsDatabase;
 
 import java.util.List;
 
+/** View model for Card backs fragment */
 public class CardBacksViewModel extends ViewModel implements CardBacksRepositoryInterface {
 
-
     private LiveData<List<CardBack>> mCardBacks;
+
     private MutableLiveData<Boolean> isDataLoading= new MutableLiveData<>();
     private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
 
-    private CardBackRepository mCardBacksRepository;
-
+    /** Default constructor
+     *  Creates database for repository and gets card back list data */
     public CardBacksViewModel(Context context) {
+        //Default values
         isDataLoading.setValue(true);
 
-        mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
+        //Create repository and get data
+        CardBackRepository mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
         mCardBacks = mCardBacksRepository.getCardBacks(this);
     }
 

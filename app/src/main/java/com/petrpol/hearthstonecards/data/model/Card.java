@@ -10,7 +10,7 @@ public class Card {
 
     @PrimaryKey
     @NonNull
-    private String cardId;
+    private String cardId = "";
 
     private String name;
     private String cardSet;
@@ -25,6 +25,8 @@ public class Card {
     private String attack;
     private String health;
 
+
+    //Getters and setters
     public @NonNull String getCardId() {
         return cardId;
     }

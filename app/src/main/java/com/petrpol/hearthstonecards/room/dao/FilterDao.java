@@ -10,13 +10,15 @@ import com.petrpol.hearthstonecards.data.model.Filter;
 
 import java.util.List;
 
+/** Interface for Filter Database */
 @Dao
 public interface FilterDao {
 
-    //Filter
+    /** Stores filter to database */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addFilter(Filter filter);
 
+    /** Gets all filters from database */
     @Query("SELECT * FROM filter_table ORDER BY patch DESC")
     LiveData<List<Filter>> getFilters();
 }

@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.room.dao.CardDao;
 import com.petrpol.hearthstonecards.room.dao.FilterDao;
@@ -19,11 +20,12 @@ public abstract class CardsDatabase extends RoomDatabase {
 
     public static synchronized CardsDatabase getInstance(Context context){
         if (instance==null)
-            instance = Room.databaseBuilder(context.getApplicationContext(),CardsDatabase.class,"cards_database").build();
+            instance = Room.databaseBuilder(context.getApplicationContext(),CardsDatabase.class,context.getString(R.string.database_cards)).build();
 
         return instance;
     }
 
+    /** Returns interface to access data */
     public abstract  CardDao getCardDao();
 
 

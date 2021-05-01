@@ -1,38 +1,33 @@
 package com.petrpol.hearthstonecards.ui.cardDetail;
 
 import android.os.Bundle;
-import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 
 import com.petrpol.hearthstonecards.R;
-import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.databinding.FragmentCardDetailBinding;
 import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 
+
+/** Fragment to show detail info of single card */
 public class CardDetailFragment extends ABaseFragment {
 
     private CardDetailViewModel cardDetailViewModel;
     private View root;
-    private Menu menu;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         //Data binding create view
         FragmentCardDetailBinding mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_card_detail, container, false);
@@ -52,15 +47,18 @@ public class CardDetailFragment extends ABaseFragment {
         if (cardDetailViewModel == null)
             cardDetailViewModel = new CardDetailViewModel(getContext());
 
+        //Bind view
         mBinding.setCardDetailViewModel(cardDetailViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
+
+        //Load data based on Card id
         cardDetailViewModel.loadCard(CardID);
-
-
 
         return root;
     }
 
+    /** Inflate own menu with additional button to show golden version of card
+     *  Shows button only if card has golden version of card */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.card_detail_menu, menu);

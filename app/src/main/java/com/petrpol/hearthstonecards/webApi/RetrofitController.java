@@ -11,20 +11,17 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/** Retrofit controller to access data from API
+import static com.petrpol.hearthstonecards.webApi.ApiValueHolder.*;
+
+/** Retrofit controller to access data from call interface
  *  Singleton */
 public class RetrofitController {
-
-    private final String BASE_URL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/";
-    private final String AUTH_KEY = "44a61c4a77msh6ad106c9d375692p1e57f7jsn5766b90e1590";
-    private final String HOST = "omgvamp-hearthstone-v1.p.rapidapi.com";
-    private final String PATH_TYPE = "types/";
-    private final String PATH_SET = "sets/";
-    private final String PATH_CLASS = "classes/";
 
     private static RetrofitController instance;
     private RetrofitApi retrofitApi;
 
+    /** Default constructor
+     *  Crates retrofit instance */
     public RetrofitController() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -34,6 +31,7 @@ public class RetrofitController {
         retrofitApi = retrofit.create(RetrofitApi.class);
     }
 
+    /** Returns instance (creates if null) */
     public static synchronized RetrofitController getInstance(){
         if (instance==null)
             instance = new RetrofitController();

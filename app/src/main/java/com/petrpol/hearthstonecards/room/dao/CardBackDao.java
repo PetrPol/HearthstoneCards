@@ -10,13 +10,16 @@ import com.petrpol.hearthstonecards.data.model.CardBack;
 
 import java.util.List;
 
+/** Interface for Card back Database */
 @Dao
 public interface CardBackDao {
 
+    /** Stores Card back to database */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCardBack(CardBack card);
 
-    @Query("SELECT * FROM card_backs_table ORDER BY name ASC")
+    /** Gets all card back from database */
+    @Query("SELECT * FROM card_backs_table")
     LiveData<List<CardBack>> getAllCardBacks();
 
 }

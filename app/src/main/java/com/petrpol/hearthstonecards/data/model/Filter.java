@@ -4,28 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/** Model class object represents Filter info */
 @Entity(tableName = "filter_table")
 public class Filter {
 
     @PrimaryKey
     @NonNull
-    private String patch;
+    private String patch = "";
     private String[] classes;
     private String[] sets;
     private String[] types;
 
-    public Filter(String patch, String[] classes, String[] sets, String[] types) {
-        this.patch = patch;
-        this.classes = classes;
-        this.sets = sets;
-        this.types = types;
-    }
-
-    public String getPatch() {
+    public @NonNull String getPatch() {
         return patch;
     }
 
-    public void setPatch(String patch) {
+    @SuppressWarnings({"unused"}) //Set by Retrofit - used by Room
+    public void setPatch(@NonNull String patch) {
         this.patch = patch;
     }
 
@@ -33,6 +28,7 @@ public class Filter {
         return classes;
     }
 
+    @SuppressWarnings({"unused"}) //Set by Retrofit - used by Application
     public void setClasses(String[] classes) {
         this.classes = classes;
     }
@@ -41,6 +37,7 @@ public class Filter {
         return sets;
     }
 
+    @SuppressWarnings({"unused"}) //Set by Retrofit - used by Application
     public void setSets(String[] sets) {
         this.sets = sets;
     }
@@ -49,6 +46,7 @@ public class Filter {
         return types;
     }
 
+    @SuppressWarnings({"unused"}) //Set by Retrofit - used by Application
     public void setTypes(String[] types) {
         this.types = types;
     }

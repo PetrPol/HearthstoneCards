@@ -14,8 +14,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
-/** Repository for Filer objects */
+/** Data repository for Filter info
+ *  Gets data from database and updates them from server
+ *  Singleton pattern */
 public class FilterRepository {
 
     public static FilterRepository instance;
@@ -23,6 +26,8 @@ public class FilterRepository {
     private RetrofitController retrofitController;
     private FilterDao filterDao;
 
+    /** Default constructor
+     *  @param database - requires database to access data */
     public FilterRepository(FilterDatabase database) {
         this.filterDao = database.getFilterDao();
         retrofitController = RetrofitController.getInstance();
@@ -51,14 +56,17 @@ public class FilterRepository {
         //Create call to server
         retrofitController.getFilter(new Callback<Filter>() {
             @Override
+            @EverythingIsNonNull
             public void onResponse(Call<Filter> call, Response<Filter> response) {
+
+                // When server error
                 if (!response.isSuccessful()) {
                     Log.e("RetroError",response.message());
                     callback.onFilterDataGetFail(response.message());
                     return;
                 }
 
-                // Store filter to DB TODO
+                // Store filter to Database
                 new Thread(() -> {
                     filterDao.addFilter(response.body());
                     callback.onFilterDataGetSuccess();
@@ -66,7 +74,9 @@ public class FilterRepository {
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFailure(Call<Filter> call, Throwable t) {
+                //Print error and call callback with error message
                 if (t.getMessage() != null) {
                     Log.e("RetroErrorFail", t.getMessage());
                     callback.onFilterDataGetFail(t.getMessage());

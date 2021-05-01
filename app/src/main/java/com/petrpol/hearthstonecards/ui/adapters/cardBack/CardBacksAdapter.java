@@ -1,16 +1,13 @@
 package com.petrpol.hearthstonecards.ui.adapters.cardBack;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.petrpol.hearthstonecards.R;
-import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.ui.adapters.ARecyclerViewAdapter;
-import com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback;
 
 import java.util.List;
 

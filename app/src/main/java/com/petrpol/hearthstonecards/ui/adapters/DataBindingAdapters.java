@@ -1,16 +1,12 @@
 package com.petrpol.hearthstonecards.ui.adapters;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.BindingAdapter;
-import androidx.lifecycle.LiveData;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.petrpol.hearthstonecards.R;
@@ -19,12 +15,15 @@ import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.utils.SnackBarController;
+import com.petrpol.hearthstonecards.utils.StringFormatter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/** Binding adapters for data binding */
 public class DataBindingAdapters {
 
+    /** Sets visibility based on boolean value */
     @BindingAdapter("android:visibility")
     public static void setVisibility(View view, Boolean value) {
         if (view !=null && value != null){
@@ -32,6 +31,9 @@ public class DataBindingAdapters {
         }
     }
 
+    /** Loads image to image view
+     * @param imageUrl - url of image to load
+     * @param imageFullSize - if true image is loaded in full size - if false image is resized and showed as thumbnail */
     @BindingAdapter({"imageUrl","imageFullSize"})
     public static void loadImage(ImageView view, String imageUrl, boolean imageFullSize){
 
@@ -48,6 +50,9 @@ public class DataBindingAdapters {
                 .into(view);
     }
 
+    /** Loads image to image view - Allows to load golden version of card
+     *  @param card - card with images to show
+     *  @param showGolden - if true is loaded golden version of card*/
     @BindingAdapter({"card","showGolden"})
     public static void loadImageDetail(ImageView view, Card card, boolean showGolden){
 
@@ -69,8 +74,8 @@ public class DataBindingAdapters {
         }
     }
 
-
-
+    /** Snack bar binder - shows snackbar in CoordinatorLayout
+     * @param message - message of snackbar to show */
     @BindingAdapter("snackBar")
     public static void showSnackBar(CoordinatorLayout view, String message){
         if (message!=null) {
@@ -78,32 +83,22 @@ public class DataBindingAdapters {
         }
     }
 
+    /** Shows text of actual filter settings
+     * @param filterType - actual type of filter
+     * @param filterValue - value of actual filter */
     @BindingAdapter({"filterType","filterValue"})
     public static void setText(TextView view, FilterType filterType, String filterValue){
 
         if (filterType == null || filterValue == null ||filterType == FilterType.NONE) {
-            view.setText("All Cards");
+            view.setText(view.getContext().getString(R.string.list_title_all_cards));
             return;
         }
 
-        Log.i("TEST ",filterType.name());
-
-        String text = "";
-        switch (filterType){//TODO
-            case TYPE:
-                text+= "Type: ";
-                break;
-            case CLASS:
-                text+= "Class: ";
-                break;
-            case SET:
-                text+= "Set:  ";
-        }
-
-        text+=filterValue;
-        view.setText(text);
+        String text = view.getContext().getString(R.string.list_title_filter, filterType, filterValue);
+        view.setText(StringFormatter.firstLetterToUppercase(text));
     }
 
+    /** Set patch text of newest filter */
     @BindingAdapter("android:text")
     public static void setText(TextView view, List<Filter> filters){
         if (filters != null && filters.size() > 0)
@@ -112,6 +107,7 @@ public class DataBindingAdapters {
             view.setText("");
     }
 
+    /** Set text to number of found card backs */
     @BindingAdapter("android:text")
     public static void setCardBackText(TextView view, List<CardBack> cardBacks){
         if (cardBacks != null && cardBacks.size() > 0)
@@ -120,12 +116,15 @@ public class DataBindingAdapters {
             view.setText("");
     }
 
+    /** Set text to no card found splash screen
+     *  @param viewType - Filter type used when no cards found */
     @BindingAdapter("noCardsText")
     public static void setNoCardsText(TextView view, FilterType viewType){
         view.setText(view.getContext().getString(R.string.no_cards_description,viewType.toString()));
     }
 
 
+    /** Sets motion state based on given filter type and filter showed value */
     @BindingAdapter({"filterType","filterShowed"})
     public static void setFilterMotion(MotionLayout motionLayout, FilterType filterType, Boolean filterShowed) {
         if (filterType == null || !filterShowed)
@@ -136,6 +135,8 @@ public class DataBindingAdapters {
             motionLayout.transitionToState(R.id.end);
     }
 
+    /** Set lore title text based on boolean value
+     *  @param containsLore - true if card contains lore info */
     @BindingAdapter({"containsLore"})
     public static void setText(TextView view, Boolean containsLore) {
         if (containsLore)
@@ -144,6 +145,9 @@ public class DataBindingAdapters {
             view.setText(R.string.card_detail_flavor_title_empty);
 
     }
+
+    /** Shows or hide button icon based on boolean value
+     * @param showIcon - if true icon is showed */
     @BindingAdapter({"showFilterIcon"})
     public static void showFilterIcon(FloatingActionButton view, boolean showIcon) {
         if(showIcon)

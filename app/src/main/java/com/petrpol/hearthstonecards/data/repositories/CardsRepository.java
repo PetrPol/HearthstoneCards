@@ -11,14 +11,15 @@ import com.petrpol.hearthstonecards.room.dao.CardDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
-/** Repository for cards list
- *  Singleton */
+/** Data repository for Cards
+ *  Gets data from database and updates them from server
+ *  Singleton pattern */
 public class CardsRepository {
 
     public static CardsRepository instance;
@@ -26,10 +27,11 @@ public class CardsRepository {
     private RetrofitController retrofitController;
     private CardDao cardDao;
 
+    /** Default constructor
+     *  @param database - requires database to access data */
     public CardsRepository(CardsDatabase database) {
         this.cardDao = database.getCardDao();
         retrofitController = RetrofitController.getInstance();
-
     }
 
     /** Gets instance (creates if is null) */
@@ -47,23 +49,27 @@ public class CardsRepository {
 
         Callback<List<Card>> retroCallback = new Callback<List<Card>>() {
             @Override
+            @EverythingIsNonNull
             public void onResponse(Call<List<Card>> call, Response<List<Card>> response) {
+
+                //If server has no cards
                 if (!response.isSuccessful()) {
                     Log.e("RetroError", response.message());
                     callback.onCardDataGetFailNoCards();
                     return;
                 }
 
+                //Prepare data to show
                 if (response.body()!=null)
                     prepareData(response.body());
 
-
+                //If after prepare no cards left
                 if (response.body()==null || response.body().size()==0) {
                     callback.onCardDataGetFailNoCards();
                     return;
                 }
 
-                //Store cards
+                //Store cards to Database
                 new Thread(() -> {
                     for (Card c: response.body()) {
                         cardDao.addCard(c);
@@ -73,7 +79,9 @@ public class CardsRepository {
             }
 
             @Override
+            @EverythingIsNonNull
             public void onFailure(Call<List<Card>> call, Throwable t) {
+                //Print error and call callback with error message
                 if (t.getMessage()!=null) {
                     Log.e("RetroErrorFail", t.getMessage());
                     callback.onCardDataGetFail(t.getMessage());
@@ -81,6 +89,7 @@ public class CardsRepository {
             }
         };
 
+        //Select endpoint to call based on filter type
         switch (filterType){
             case SET:
                 retrofitController.getCardsBySet(filterString,retroCallback);

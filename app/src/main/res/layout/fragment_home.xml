@@ -115,7 +115,7 @@
                 android:layout_marginBottom="12dp"
                 android:clickable="@{!homeModelView.isFilterLoading}"
                 android:focusable="@{!homeModelView.isFilterLoading}"
-                android:onClick="@{homeModelView::showFilter}"
+                android:onClick="@{() -> homeModelView.showFilter()}"
                 android:tint="@color/colorBackground"
                 android:visibility="@{!homeModelView.filterViewShowed}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -170,7 +170,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{homeModelView::hideFilter}"
+                android:onClick="@{() -> homeModelView.hideFilter()}"
                 android:src="@drawable/ic_baseline_close_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
