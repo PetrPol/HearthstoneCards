@@ -1,17 +1,17 @@
-package com.petrpol.hearthstonecards.ui;
+package com.petrpol.hearthstonecards.ui.activities;
 
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.petrpol.hearthstonecards.R;
+import com.petrpol.hearthstonecards.ui.base.ABaseActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ABaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

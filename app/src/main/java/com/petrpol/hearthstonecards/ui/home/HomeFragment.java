@@ -1,20 +1,14 @@
 package com.petrpol.hearthstonecards.ui.home;
 
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,19 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.enums.FilterType;
-import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.databinding.FragmentHomeBinding;
-import com.petrpol.hearthstonecards.ui.adapters.cards.CardItemCallback;
+import com.petrpol.hearthstonecards.ui.base.ABaseActivity;
 import com.petrpol.hearthstonecards.ui.adapters.cards.CardsAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemCallback;
-import com.petrpol.hearthstonecards.utils.SnackBarController;
-
-import java.util.List;
+import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
+import com.petrpol.hearthstonecards.utils.BackButtonInterface;
 
 /** Default Home fragment
  *  Contains list of cards an allows to filter cards by type,class or set*/
-public class HomeFragment extends Fragment {
+public class HomeFragment extends ABaseFragment {
 
     private HomeViewModel homeViewModel;
     private MotionLayout motionLayout;
@@ -54,10 +46,14 @@ public class HomeFragment extends Fragment {
         mBinding.setHomeModelView(homeViewModel);
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
 
+        if (getActivity()!=null)
+        ((ABaseActivity)getActivity()).backButtonInterface = this;
+
         setupRecyclerViews();
 
         return root;
     }
+
 
 
     /** Setups recycler views */
@@ -92,5 +88,23 @@ public class HomeFragment extends Fragment {
         HomeFragmentDirections.ActionNavigationHomeToCardDetailFragment action = HomeFragmentDirections.actionNavigationHomeToCardDetailFragment(cardId);
         FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().addSharedElement(imageView,"card_detail_image").build();
         Navigation.findNavController(imageView).navigate(action,extras);
+    }
+
+
+    /** On back pressed handler */
+    @Override
+    public boolean onBackPressed() {
+
+        if (homeViewModel.getFilterViewShowed().getValue()!=null && homeViewModel.getFilterViewShowed().getValue()){
+            if (homeViewModel.getFilterType().getValue()!=null && homeViewModel.getFilterType().getValue()!= FilterType.NONE)
+                // Close filter list
+                homeViewModel.setFilterType(FilterType.NONE);
+            else
+                //Close filter select
+                homeViewModel.hideFilter(null);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -25,11 +25,11 @@ public class Card {
     private String attack;
     private String health;
 
-    public String getCardId() {
+    public @NonNull String getCardId() {
         return cardId;
     }
 
-    public void setCardId(String cardId) {
+    public void setCardId(@NonNull String cardId) {
         this.cardId = cardId;
     }
 
@@ -54,7 +54,10 @@ public class Card {
     }
 
     public String getFlavor() {
-        return flavor;
+        if (flavor!=null)
+            return flavor;
+        else
+            return "This card has no lore information";
     }
 
     public void setFlavor(String flavor) {

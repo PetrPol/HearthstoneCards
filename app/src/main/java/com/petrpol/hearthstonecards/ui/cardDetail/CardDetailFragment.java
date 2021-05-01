@@ -21,8 +21,9 @@ import androidx.navigation.Navigation;
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.model.Card;
 import com.petrpol.hearthstonecards.databinding.FragmentCardDetailBinding;
+import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 
-public class CardDetailFragment extends Fragment {
+public class CardDetailFragment extends ABaseFragment {
 
     private CardDetailViewModel cardDetailViewModel;
     private View root;

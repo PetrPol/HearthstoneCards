@@ -21,9 +21,10 @@ import com.petrpol.hearthstonecards.databinding.FragmentCardBacksBinding;
 import com.petrpol.hearthstonecards.databinding.FragmentHomeBinding;
 import com.petrpol.hearthstonecards.ui.adapters.cardBack.CardBacksAdapter;
 import com.petrpol.hearthstonecards.ui.adapters.filter.FilterItemAdapter;
+import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 import com.petrpol.hearthstonecards.ui.home.HomeViewModel;
 
-public class CardBacksFragment extends Fragment {
+public class CardBacksFragment extends ABaseFragment {
 
     private CardBacksViewModel cardBacksViewModel;
     private View root;
