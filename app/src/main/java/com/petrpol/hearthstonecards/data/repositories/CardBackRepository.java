@@ -27,7 +27,6 @@ public class CardBackRepository {
 
     /**
      * Default constructor
-     *
      * @param application - application to access database
      */
     public CardBackRepository(Application application) {
