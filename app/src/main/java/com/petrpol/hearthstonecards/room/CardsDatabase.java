@@ -1,6 +1,5 @@
 package com.petrpol.hearthstonecards.room;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.room.Database;
@@ -32,17 +31,17 @@ public abstract class CardsDatabase extends RoomDatabase {
     }
 
     /**
-     * Returns interface to access data
+     * Returns interface to access Card data
      */
     public abstract CardDao getCardDao();
 
     /**
-     * Returns interface to access data
+     * Returns interface to access Filter data
      */
     public abstract FilterDao getFilterDao();
 
     /**
-     * Returns interface to access data
+     * Returns interface to access CardBack data
      */
     public abstract CardBackDao getCardBacksDao();
 }
