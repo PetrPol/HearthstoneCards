@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,19 +26,16 @@ import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 public class HomeFragment extends ABaseFragment {
 
     private HomeViewModel homeViewModel;
-    private View root;
+    private FragmentHomeBinding mBinding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Data binding create view
-        FragmentHomeBinding mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false);
-        root = mBinding.getRoot();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
 
-        //Create new model only if is null and clean data if exist
-        if (homeViewModel==null)
-            homeViewModel = new HomeViewModel(getContext());
-        else
-            homeViewModel.clean();
+        //Get view model from provider
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.clean();
 
         //Set binding
         mBinding.setHomeModelView(homeViewModel);
@@ -45,7 +43,7 @@ public class HomeFragment extends ABaseFragment {
 
         setupRecyclerViews();
 
-        return root;
+        return mBinding.getRoot();
     }
 
 
@@ -53,15 +51,14 @@ public class HomeFragment extends ABaseFragment {
     /** Setups recycler views and adapters*/
     private void setupRecyclerViews(){
         //Card Recycler
-        RecyclerView cardsRecyclerView = root.findViewById(R.id.home_recycler_view);
 
         //Observe data view changed - create new adapter
         homeViewModel.getDataViewType().observe(getViewLifecycleOwner(), filterType -> {
             CardsAdapter cardsAdapter = new CardsAdapter(getContext(), homeViewModel.getCards(), this::showDetail);
-            cardsRecyclerView.setAdapter(cardsAdapter);
+            mBinding.homeRecyclerView.setAdapter(cardsAdapter);
         });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        cardsRecyclerView.setLayoutManager(layoutManager);
+        mBinding.homeRecyclerView.setLayoutManager(layoutManager);
 
         //Filter Recycler
         FilterItemCallback filterItemCallback = filter -> {
@@ -69,11 +66,10 @@ public class HomeFragment extends ABaseFragment {
             homeViewModel.hideFilter();
         };
 
-        RecyclerView filterRecyclerView = root.findViewById(R.id.home_filter_recycler_view);
         FilterItemAdapter filterAdapter = new FilterItemAdapter(getContext(), homeViewModel.getFilterData(), homeViewModel.getFilterType(), filterItemCallback);
         layoutManager = new LinearLayoutManager(getContext());
-        filterRecyclerView.setLayoutManager(layoutManager);
-        filterRecyclerView.setAdapter(filterAdapter);
+        mBinding.homeFilterRecyclerView.setLayoutManager(layoutManager);
+        mBinding.homeFilterRecyclerView.setAdapter(filterAdapter);
     }
 
     /** Navigates to CardDetailFragment - passes CardId as argument with image view as shared element */

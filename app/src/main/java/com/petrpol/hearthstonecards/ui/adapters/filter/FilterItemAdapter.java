@@ -13,7 +13,9 @@ import com.petrpol.hearthstonecards.ui.adapters.ARecyclerViewAdapter;
 
 import java.util.List;
 
-/** Adapter for Filter options of given type */
+/**
+ * Adapter for Filter options of given type
+ */
 public class FilterItemAdapter extends ARecyclerViewAdapter {
 
     Context mContext;
@@ -28,7 +30,7 @@ public class FilterItemAdapter extends ARecyclerViewAdapter {
         this.mFilterTypeData = mFilterTypeData;
         this.filterItemCallback = filterItemCallback;
 
-        mFilterTypeData.observe((LifecycleOwner) mContext, (Observer<FilterType>) filterType -> notifyDataSetChanged());
+        mFilterTypeData.observe((LifecycleOwner) mContext, filterType -> notifyDataSetChanged());
     }
 
     /** Returns object based on position and filter type */

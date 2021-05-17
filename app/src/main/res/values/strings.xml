@@ -10,8 +10,6 @@
 
     //Database
     <string name="database_cards">cards_database</string>
-    <string name="database_filters">filters_database</string>
-    <string name="database_card_backs">card_backs_database</string>
 
 
     //Home Fragment

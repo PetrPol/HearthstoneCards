@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.petrpol.hearthstonecards.utils.BackButtonInterface;
 
-/** Abstract base activity - All activities extends this activity */
+/**
+ * Abstract base activity - All activities extends this activity
+ */
 public abstract class ABaseActivity extends AppCompatActivity {
 
     public BackButtonInterface backButtonInterface;

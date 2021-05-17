@@ -1,6 +1,8 @@
 package com.petrpol.hearthstonecards.webApi;
 
-/** Holder for server calls */
+/**
+ * Holder for server calls strings
+ */
 public class ApiValueHolder {
 
     // Server call base url

@@ -1,5 +1,6 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -21,24 +22,17 @@ import retrofit2.internal.EverythingIsNonNull;
  *  Singleton pattern */
 public class SingleCardRepository {
 
-    public static SingleCardRepository instance;
-
     private RetrofitController retrofitController;
     private CardDao cardDao;
 
-    /** Default constructor
-     *  @param cardsDatabase - requires database to access data */
-    public SingleCardRepository(CardsDatabase cardsDatabase) {
+    /**
+     * Default constructor
+     *
+     * @param application - application to access database
+     */
+    public SingleCardRepository(Application application) {
         retrofitController = RetrofitController.getInstance();
-        cardDao = cardsDatabase.getCardDao();
-    }
-
-    /** Returns instance (create if null) */
-    public static synchronized SingleCardRepository getInstance(CardsDatabase cardsDatabase){
-        if (instance == null)
-            instance = new SingleCardRepository(cardsDatabase);
-
-        return instance;
+        cardDao = CardsDatabase.getInstance(application).getCardDao();
     }
 
     /** Gets card object from DB

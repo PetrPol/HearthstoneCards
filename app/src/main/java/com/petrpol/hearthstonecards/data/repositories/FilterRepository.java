@@ -1,11 +1,12 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.petrpol.hearthstonecards.data.model.Filter;
-import com.petrpol.hearthstonecards.room.FilterDatabase;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.FilterDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
@@ -26,20 +27,14 @@ public class FilterRepository {
     private RetrofitController retrofitController;
     private FilterDao filterDao;
 
-    /** Default constructor
-     *  @param database - requires database to access data */
-    public FilterRepository(FilterDatabase database) {
-        this.filterDao = database.getFilterDao();
+    /**
+     * Default constructor
+     *
+     * @param application - application to access database
+     */
+    public FilterRepository(Application application) {
+        this.filterDao = CardsDatabase.getInstance(application).getFilterDao();
         retrofitController = RetrofitController.getInstance();
-
-    }
-
-    /** Gets instance (creates if is null) */
-    public static synchronized FilterRepository getInstance(FilterDatabase database){
-        if (instance == null)
-            instance = new FilterRepository(database);
-
-        return instance;
     }
 
     /** Updates filter by call from server */

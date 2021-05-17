@@ -1,7 +1,10 @@
 package com.petrpol.hearthstonecards.ui.cardBacks;
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,30 +12,33 @@ import androidx.lifecycle.ViewModel;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.data.repositories.CardBackRepository;
 import com.petrpol.hearthstonecards.data.repositories.CardBacksRepositoryInterface;
-import com.petrpol.hearthstonecards.room.CardBacksDatabase;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
+import com.petrpol.hearthstonecards.ui.base.ABaseViewModel;
 
 import java.util.List;
 
-/** View model for Card backs fragment */
-public class CardBacksViewModel extends ViewModel implements CardBacksRepositoryInterface {
+/**
+ * View model for Card backs fragment
+ */
+public class CardBacksViewModel extends ABaseViewModel implements CardBacksRepositoryInterface {
 
     private LiveData<List<CardBack>> mCardBacks;
 
-    private MutableLiveData<Boolean> isDataLoading= new MutableLiveData<>();
-    private MutableLiveData<String> mErrorMessage= new MutableLiveData<>();
-    private MutableLiveData<Boolean> isConnectionProblems= new MutableLiveData<>();
+    private MutableLiveData<Boolean> isDataLoading = new MutableLiveData<>();
 
     private CardBackRepository mCardBacksRepository;
 
     /** Default constructor
-     *  Creates database for repository and gets card back list data */
-    public CardBacksViewModel(Context context) {
+     *  Creates repository and gets list data
+     *  @param application - Application for repository */
+    public CardBacksViewModel(@NonNull Application application) {
+        super(application);
+
         //Default values
         isDataLoading.setValue(true);
-        isConnectionProblems.setValue(false);
 
         //Create repository and get data
-        mCardBacksRepository = CardBackRepository.getInstance(CardBacksDatabase.getInstance(context));
+        mCardBacksRepository = new CardBackRepository(application);
         mCardBacks = mCardBacksRepository.getCardBacks(this);
     }
 
@@ -60,15 +66,7 @@ public class CardBacksViewModel extends ViewModel implements CardBacksRepository
         return mCardBacks;
     }
 
-    public LiveData<String> getErrorMessage() {
-        return mErrorMessage;
-    }
-
     public LiveData<Boolean> getIsDataLoading() {
         return isDataLoading;
-    }
-
-    public LiveData<Boolean> getIsConnectionProblems() {
-        return isConnectionProblems;
     }
 }

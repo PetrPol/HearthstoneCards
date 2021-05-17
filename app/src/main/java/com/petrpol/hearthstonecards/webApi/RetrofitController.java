@@ -39,7 +39,9 @@ public class RetrofitController {
         return instance;
     }
 
-    /** Gets single card from server for given cardId */
+    /**
+     * Gets single card from server for given cardId
+     */
     public void getCardDetail( String cardId, Callback<List<Card>> callback){
         Call<List<Card>> call = retrofitApi.getCardDetail(cardId,AUTH_KEY,HOST);
         call.enqueue(callback);

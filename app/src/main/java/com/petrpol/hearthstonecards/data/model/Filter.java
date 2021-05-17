@@ -3,9 +3,13 @@ package com.petrpol.hearthstonecards.data.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.petrpol.hearthstonecards.room.RoomConverters;
 
 /** Model class object represents Filter info */
 @Entity(tableName = "filter_table")
+@TypeConverters(RoomConverters.class)
 public class Filter {
 
     @PrimaryKey

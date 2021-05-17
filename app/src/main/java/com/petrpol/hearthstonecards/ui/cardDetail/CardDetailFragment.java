@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.databinding.FragmentCardDetailBinding;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 
 
@@ -23,15 +25,14 @@ import com.petrpol.hearthstonecards.ui.base.ABaseFragment;
 public class CardDetailFragment extends ABaseFragment {
 
     private CardDetailViewModel cardDetailViewModel;
-    private View root;
+    private FragmentCardDetailBinding mBinding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //Data binding create view
-        FragmentCardDetailBinding mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_card_detail, container, false);
-        root = mBinding.getRoot();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_card_detail, container, false);
         setHasOptionsMenu(true);
 
         //Setup animation
@@ -43,9 +44,8 @@ public class CardDetailFragment extends ABaseFragment {
         if (getArguments() != null)
             CardID = CardDetailFragmentArgs.fromBundle(getArguments()).getCardId();
 
-        //Create new model only if is null
-        if (cardDetailViewModel == null)
-            cardDetailViewModel = new CardDetailViewModel(getContext());
+        //Get view model from provider
+        cardDetailViewModel = new ViewModelProvider(this).get(CardDetailViewModel.class);
 
         //Bind view
         mBinding.setCardDetailViewModel(cardDetailViewModel);
@@ -54,7 +54,7 @@ public class CardDetailFragment extends ABaseFragment {
         //Load data based on Card id
         cardDetailViewModel.loadCard(CardID);
 
-        return root;
+        return mBinding.getRoot();
     }
 
     /** Inflate own menu with additional button to show golden version of card
@@ -76,7 +76,7 @@ public class CardDetailFragment extends ABaseFragment {
         if (item.getItemId()==R.id.card_detail_show_golden)
             cardDetailViewModel.changeGolden();
         else
-            Navigation.findNavController(root).popBackStack();
+            Navigation.findNavController(mBinding.getRoot()).popBackStack();
         return false;
     }
 }

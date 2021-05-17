@@ -8,7 +8,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-/** Abstract binding adapter for recycler view */
+/**
+ * Abstract binding adapter for recycler view
+ */
 public abstract class ARecyclerViewAdapter extends RecyclerView.Adapter<BindViewHolder>{
 
     /** Returns object to bind to view of given position */

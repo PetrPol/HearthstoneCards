@@ -4,7 +4,9 @@ import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
 
-/** Room converters data to store to database */
+/**
+ * Room converters data to store to database
+ */
 public class RoomConverters {
 
     /** Converts String array to Json object in string */

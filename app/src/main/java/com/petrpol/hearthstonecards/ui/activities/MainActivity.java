@@ -11,8 +11,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-/** Main activity of application
- *  Contains Navigation controller with bottom navigation */
+/**
+ * Main activity of application
+ * Contains Navigation controller with bottom navigation
+ */
 public class MainActivity extends ABaseActivity {
 
     @Override

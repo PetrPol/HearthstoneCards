@@ -1,11 +1,12 @@
 package com.petrpol.hearthstonecards.data.repositories;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.petrpol.hearthstonecards.data.model.CardBack;
-import com.petrpol.hearthstonecards.room.CardBacksDatabase;
+import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.CardBackDao;
 import com.petrpol.hearthstonecards.webApi.RetrofitController;
 
@@ -21,24 +22,17 @@ import retrofit2.internal.EverythingIsNonNull;
  *  Singleton pattern */
 public class CardBackRepository {
 
-    public static CardBackRepository instance;
-
     private RetrofitController retrofitController;
     private CardBackDao cardBackDao;
 
-    /** Default constructor
-     *  @param cardBacksDatabase - requires database to access data */
-    public CardBackRepository(CardBacksDatabase cardBacksDatabase) {
+    /**
+     * Default constructor
+     *
+     * @param application - application to access database
+     */
+    public CardBackRepository(Application application) {
         retrofitController = RetrofitController.getInstance();
-        cardBackDao = cardBacksDatabase.getCardBacksDao();
-    }
-
-    /** Returns instance (create if null) */
-    public static synchronized CardBackRepository getInstance(CardBacksDatabase cardsDatabase){
-        if (instance == null)
-            instance = new CardBackRepository(cardsDatabase);
-
-        return instance;
+        cardBackDao = CardsDatabase.getInstance(application).getCardBacksDao();
     }
 
     /** Gets list of cardbacks from DB

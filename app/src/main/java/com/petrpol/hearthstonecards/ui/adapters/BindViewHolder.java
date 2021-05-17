@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petrpol.hearthstonecards.BR;
 
-/** View holder with abstract binding
- *  Used for all recycler views */
+/**
+ * View holder with abstract binding
+ * Used for all recycler views
+ */
 public class BindViewHolder extends RecyclerView.ViewHolder {
 
     private final ViewDataBinding mBinding;

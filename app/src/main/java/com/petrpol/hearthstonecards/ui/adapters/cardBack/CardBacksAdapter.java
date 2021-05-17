@@ -11,8 +11,10 @@ import com.petrpol.hearthstonecards.ui.adapters.ARecyclerViewAdapter;
 
 import java.util.List;
 
-/** Recycler adapter for list of cards backs
- *  Extends ARecyclerViewAdapter - can be easily added another type of item */
+/**
+ * Recycler adapter for list of cards backs
+ * Extends ARecyclerViewAdapter - can be easily added another type of item
+ */
 public class CardBacksAdapter extends ARecyclerViewAdapter {
 
     Context mContext;

@@ -4,7 +4,9 @@ import androidx.fragment.app.Fragment;
 
 import com.petrpol.hearthstonecards.utils.BackButtonInterface;
 
-/** Abstract base fragment - All fragments extends this activity */
+/**
+ * Abstract base fragment - All fragments extends this activity
+ */
 public class ABaseFragment extends Fragment implements BackButtonInterface {
 
     /** Register on back pressed interface to activity */

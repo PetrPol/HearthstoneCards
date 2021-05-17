@@ -26,7 +26,9 @@ import java.util.List;
 /** Binding adapters for data binding */
 public class DataBindingAdapters {
 
-    /** Sets visibility based on boolean value */
+    /**
+     * Sets visibility based on boolean value
+     */
     @BindingAdapter("android:visibility")
     public static void setVisibility(View view, Boolean value) {
         if (view !=null && value != null){

@@ -1,7 +1,10 @@
 package com.petrpol.hearthstonecards.ui.home;
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,12 +17,14 @@ import com.petrpol.hearthstonecards.data.repositories.CardsRepositoryInterface;
 import com.petrpol.hearthstonecards.data.repositories.FilterRepository;
 import com.petrpol.hearthstonecards.data.repositories.FilterRepositoryInterface;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
-import com.petrpol.hearthstonecards.room.FilterDatabase;
+import com.petrpol.hearthstonecards.ui.base.ABaseViewModel;
 
 import java.util.List;
 
-/** View model for Home fragment */
-public class HomeViewModel extends ViewModel implements CardsRepositoryInterface, FilterRepositoryInterface {
+/**
+ * View model for Home fragment
+ */
+public class HomeViewModel extends ABaseViewModel implements CardsRepositoryInterface, FilterRepositoryInterface {
 
     private LiveData<List<Card>> mCards;
     private LiveData<List<Filter>> mFilterInfo;
@@ -29,8 +34,6 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private MutableLiveData<Boolean> isFilterLoading = new MutableLiveData<>();
     private MutableLiveData<FilterType> filterType = new MutableLiveData<>();
     private MutableLiveData<FilterType> dataViewType = new MutableLiveData<>();
-    private MutableLiveData<String> mErrorMessage = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isConnectionProblems = new MutableLiveData<>();
     private MutableLiveData<String> filterValue = new MutableLiveData<>();
     private MutableLiveData<Boolean> noDataFound = new MutableLiveData<>();
 
@@ -39,10 +42,15 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
     private CardsRepository mCardsRepository;
     private FilterRepository mFilterRepository;
 
-    /** Default constructor
-     *  Sets default values
-     *  Creates data repositories and gets default data */
-    public HomeViewModel(Context context) {
+    /**
+     * Default constructor
+     * Sets default values
+     * Creates repository and gets default data
+     *
+     * @param application - Application for repository
+     */
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
 
         //Default values
         filterType.setValue(FilterType.NONE);
@@ -50,23 +58,16 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         filterViewShowed.setValue(false);
         isDataLoading.setValue(true);
         isFilterLoading.setValue(true);
-        mErrorMessage.setValue(null);
         filterValue.setValue(null);
         noDataFound.setValue(false);
-        isConnectionProblems.setValue(false);
 
         //Create repositories
-        mCardsRepository = CardsRepository.getInstance(CardsDatabase.getInstance(context));
-        mFilterRepository = FilterRepository.getInstance(FilterDatabase.getInstance(context));
+        mCardsRepository = new CardsRepository(application);
+        mFilterRepository = new FilterRepository(application);
 
         //Get cards and filter
-        mCards = mCardsRepository.getCards( this);
+        mCards = mCardsRepository.getCards(this);
         mFilterInfo = mFilterRepository.getFilter(this);
-    }
-
-    /** Cleans data before inflate to new view */
-    public void clean(){
-        mErrorMessage.setValue(null);
     }
 
     /** Updates filterViewShowed to true */
@@ -178,10 +179,6 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         return isFilterLoading;
     }
 
-    public LiveData<String> getErrorMessage() {
-        return mErrorMessage;
-    }
-
     public LiveData<FilterType> getDataViewType() {
         return dataViewType;
     }
@@ -190,7 +187,5 @@ public class HomeViewModel extends ViewModel implements CardsRepositoryInterface
         return noDataFound;
     }
 
-    public LiveData<Boolean> getIsConnectionProblems() {
-        return isConnectionProblems;
-    }
+
 }
