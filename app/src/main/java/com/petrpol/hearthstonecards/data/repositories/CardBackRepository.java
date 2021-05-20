@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.model.CardBack;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.CardBackDao;
@@ -24,12 +25,14 @@ public class CardBackRepository {
 
     private RetrofitController retrofitController;
     private CardBackDao cardBackDao;
+    private Application application;
 
     /**
      * Default constructor
      * @param application - application to access database
      */
     public CardBackRepository(Application application) {
+        this.application = application;
         retrofitController = RetrofitController.getInstance();
         cardBackDao = CardsDatabase.getInstance(application).getCardBacksDao();
     }
@@ -61,7 +64,7 @@ public class CardBackRepository {
                     }).start();
                 }
                 else
-                    callback.onCardBackDataGetFail("No card backs found");
+                    callback.onCardBackDataGetFail(application.getString(R.string.error_no_card_backs));
 
             }
 
@@ -71,7 +74,7 @@ public class CardBackRepository {
                 //Print error and call callback with error message
                 if (t.getMessage()!=null) {
                     Log.e("RetroFailure", t.getMessage());
-                    callback.onCardBackDataGetFail(t.getMessage());
+                    callback.onCardBackDataGetFail(application.getString(R.string.error_no_connection));
                 }
             }
         });

@@ -32,5 +32,9 @@
     //Card back fragment
     <string name="card_back_title">Cards backs found: %d</string>
 
+    //Error messages
+    <string name="error_no_connection">Server connection failed</string>
+    <string name="error_no_card_backs">No card backs found</string>
+    <string name="error_no_card">Card not found</string>
 
 </resources>

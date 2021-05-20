@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.petrpol.hearthstonecards.R;
 import com.petrpol.hearthstonecards.data.model.Filter;
 import com.petrpol.hearthstonecards.room.CardsDatabase;
 import com.petrpol.hearthstonecards.room.dao.FilterDao;
@@ -26,6 +27,7 @@ public class FilterRepository {
 
     private RetrofitController retrofitController;
     private FilterDao filterDao;
+    private Application application;
 
     /**
      * Default constructor
@@ -33,6 +35,7 @@ public class FilterRepository {
      * @param application - application to access database
      */
     public FilterRepository(Application application) {
+        this.application = application;
         this.filterDao = CardsDatabase.getInstance(application).getFilterDao();
         retrofitController = RetrofitController.getInstance();
     }
@@ -79,7 +82,7 @@ public class FilterRepository {
                 //Print error and call callback with error message
                 if (t.getMessage() != null) {
                     Log.e("RetroErrorFail", t.getMessage());
-                    callback.onFilterDataGetFail(t.getMessage());
+                    callback.onFilterDataGetFail(application.getString(R.string.error_no_connection));
                 }
             }
         });
